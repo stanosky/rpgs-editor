@@ -6,6 +6,7 @@
     <!--Import materialize.css-->
     <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
     <link type="text/css" rel="stylesheet" href="css/main.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="css/dialogsTab.css"  media="screen,projection"/>
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta charset="utf-8">
@@ -16,5 +17,16 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script type="text/javascript" src="js/materialize.min.js"></script>
     <script src="bundle.js"></script>
+    <script type="text/javascript">
+      // Initialize collapse button
+      $(".button-collapse").sideNav({
+        menuWidth: 300, // Default is 300
+        edge: 'right', // Choose the horizontal origin
+        closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
+        draggable: true // Choose whether you can drag to open on touch screens
+      });
+      // Initialize collapsible (uncomment the line below if you use the dropdown variation)
+      $('.collapsible').collapsible();
+    </script>
   </body>
 </html>
