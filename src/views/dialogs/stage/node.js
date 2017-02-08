@@ -3,6 +3,7 @@ import { html } from 'hyperapp';
 
 const view = (model, msg) => (html`
   <div
+    id="testNode"
     onmousedown=${e => msg.drag({
         position: {
             x: e.pageX, y: e.pageY, offsetX: e.offsetX, offsetY: e.offsetY
@@ -11,7 +12,10 @@ const view = (model, msg) => (html`
     style=${{
         userSelect: "none",
         cursor: "move",
-        position: "absolute",
+        width: "200px",
+        height: "40px",
+        'z-index': "999",
+        position: "relative",
         padding: "10px",
         left: `${model.position.x - model.position.offsetX}px`,
         top: `${model.position.y - model.position.offsetY}px`,

@@ -25,7 +25,7 @@
   "author": "Krzysztof Stano (stanosky)",
   "license": "MIT",
   "dependencies": {
-    "hyperapp": "0.0.8"
+    "hyperapp": "0.0.11"
   },
   "devDependencies": {
     "babel-cli": "^6.22.2",

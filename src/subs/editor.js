@@ -1,7 +1,9 @@
+let ds;
 const subs = [
     (_, msg) => addEventListener("mouseup", msg.drop),
     (_, msg) => addEventListener("mousemove", e => {
-        msg.move({ x: e.pageX, y: e.pageY });
+        ds = document.getElementById('dialogs-stage').getBoundingClientRect();
+        msg.move({ x: e.pageX - ds.left, y: e.pageY - ds.top});
     })
 ];
 

@@ -5,32 +5,34 @@ import dialogsView from './dialogsView'
 const view = (model, msg) => (html`
   <div id="app-root">
     <header>
-      <nav class="nav-extended">
-        <div class="nav-wrapper">
-          <a href="#" class="brand-logo">RPGS Editor</a>
-          <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-          <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li><a href="#">Import</a></li>
-            <li><a href="#">Export</a></li>
-            <li><a href="#">Settings</a></li>
-          </ul>
-          <ul class="side-nav" id="mobile-demo">
-            <li><a href="#">Import</a></li>
-            <li><a href="#">Export</a></li>
-            <li><a href="#">Settings</a></li>
-          </ul>
-        </div>
-        <div class="nav-content">
-          <ul class="tabs tabs-transparent">
-            <li class="tab"><a href="#dialogsTab" class="active">Dialogs</a></li>
-            <li class="tab"><a href="#test2">Actors</a></li>
-            <li class="tab"><a href="#test3">Inventory</a></li>
-            <li class="tab disabled"><a href="#test4">Quests</a></li>
-            <li class="tab disabled"><a href="#test5">Scripts</a></li>
-            <li class="tab disabled"><a href="#test6">Variables</a></li>
-          </ul>
-        </div>
-      </nav>
+      <div class="navbar-fixed">
+        <nav class="nav-extended">
+          <div class="nav-wrapper">
+            <a href="#" class="brand-logo">RPGS Editor</a>
+            <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+              <li><a href="#">Import</a></li>
+              <li><a href="#">Export</a></li>
+              <li><a href="#">Settings</a></li>
+            </ul>
+            <ul class="side-nav" id="mobile-demo">
+              <li><a href="#">Import</a></li>
+              <li><a href="#">Export</a></li>
+              <li><a href="#">Settings</a></li>
+            </ul>
+          </div>
+          <div class="nav-content">
+            <ul class="tabs tabs-transparent">
+              <li class="tab"><a href="#dialogsTab" class="active">Dialogs</a></li>
+              <li class="tab"><a href="#test2">Actors</a></li>
+              <li class="tab"><a href="#test3">Inventory</a></li>
+              <li class="tab disabled"><a href="#test4">Quests</a></li>
+              <li class="tab disabled"><a href="#test5">Scripts</a></li>
+              <li class="tab disabled"><a href="#test6">Variables</a></li>
+            </ul>
+          </div>
+        </nav>
+      </div>
     </header>
     <main>
       ${dialogsView(model, msg)}
