@@ -1,0 +1,12 @@
+.side-panel {
+  width: 300px;
+}
+
+.editor-stage {
+  position: fixed;
+  top: 37px;
+  left: 300px;
+  right: 0;
+  bottom: 0;
+  overflow: scroll;
+}

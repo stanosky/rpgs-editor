@@ -7,7 +7,9 @@ const plugins = [
     filename: './bundle.css',
     allChunks: true,
   }),
-  new BabiliPlugin(),
+  new BabiliPlugin({
+    mangle: false,
+  }),
 ];
 
 module.exports = function webpackStuff() {

@@ -1,17 +1,16 @@
 'use strict';
 
 import { h } from 'hyperapp';
-import navLeft from './navLeft';
+import navLeft from './tabs';
+import dialogs from './dialogs/dialogs';
 
 const view = (model, msg) => (
-  <div className="block">
-    <nav className="nav has-shadow">
-      <div className="container">
-        {navLeft(model, msg)}
-      </div>
-    </nav>
+  <div>
+    <div>
+      {navLeft(model, msg)}
+    </div>
     <section>
-      
+      {dialogs(model,msg)}
     </section>
   </div>
 );

@@ -10,6 +10,17 @@ const update = {
     }
     return {selectedTab: clickedTab};
   },
+  showAddDialogModal: ({isAddDialogVisible}) => ({ isAddDialogVisible: true}),
+  hideAddDialogModal: ({isAddDialogVisible}) => ({ isAddDialogVisible: false}),
+  addDialog: ({rpgs,isAddDialogVisible}) => {
+    rpgs.addNode('DialogNode',{},false);
+    //console.log(rpgs.serializeData());
+    return {rpgs,isAddDialogVisible:false};
+  },
+  deleteDialog: ({rpgs}, e) => {
+    rpgs.removeNode(e.currentTarget.id);
+    return {rpgs};
+  }
 };
 
 export default update;
