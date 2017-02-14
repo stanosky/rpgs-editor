@@ -1,7 +1,6 @@
 import { app } from 'hyperapp';
-import update from './updates/editor';
-import model from './models/editor';
-import view from './views/mainView';
-import subs from './subs/editor';
+import update from './updates/update';
+import model from './models/model';
+import view from './views/main';
 
-app({ root:document.getElementById('app-root'), model, update, view, subs });
+app({ model, update, view });
