@@ -5,9 +5,10 @@ import { h } from 'hyperapp';
 const view = (model, msg) => (
     model.rpgs.getDialogs().map(d => {
       let id = d.getId();
+      let label = d.getLabel();
       return (
         <div className="panel-block">
-          <p>{id}</p>
+          <p>{label}</p>
           <a
             id={id}
             class="delete"

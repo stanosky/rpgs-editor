@@ -1,4 +1,8 @@
-const update = {
+'use strict';
+
+import dialogsUpdates from './dialogsUpdates';
+
+const update = Object.assign({
   switchTab: ({ selectedTab }, e) => {
     let clickedTab = e.currentTarget.id;
     let oldTab = document.getElementById(selectedTab);
@@ -10,17 +14,7 @@ const update = {
     }
     return {selectedTab: clickedTab};
   },
-  showAddDialogModal: ({isAddDialogVisible}) => ({ isAddDialogVisible: true}),
-  hideAddDialogModal: ({isAddDialogVisible}) => ({ isAddDialogVisible: false}),
-  addDialog: ({rpgs,isAddDialogVisible}) => {
-    rpgs.addNode('DialogNode',{},false);
-    //console.log(rpgs.serializeData());
-    return {rpgs,isAddDialogVisible:false};
-  },
-  deleteDialog: ({rpgs}, e) => {
-    rpgs.removeNode(e.currentTarget.id);
-    return {rpgs};
-  }
-};
+},
+dialogsUpdates);
 
 export default update;

@@ -1,10 +1,13 @@
-import {RPGSystem} from '../../../rpgs/rpgs/build/rpgs.min';
+'use strict';
 
-const model = {
+import {RPGSystem} from '../../../rpgs/rpgs/build/rpgs.min';
+import dialogsModel from './dialogsModel';
+
+const model = Object.assign({
   rpgs: new RPGSystem(),
   tabs: ['Dialogs','Actors','Quests','Variables','Scripts'],
   selectedTab: 'Dialogs',
-  isAddDialogVisible: false,
-};
+},
+dialogsModel);
 
 export default model;

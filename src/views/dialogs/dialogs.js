@@ -1,7 +1,8 @@
 'use strict';
 
 import { h } from 'hyperapp';
-import dialogItems from './dialogItems'
+import dialogItems from './dialogItems';
+import addDialogModal from './addDialogModal';
 
 const view = (model, msg) => (
   <div id="DialogsTab" className={
@@ -29,31 +30,7 @@ const view = (model, msg) => (
     <div className="editor-stage">
 
     </div>
-    <div class={"modal" + (model.isAddDialogVisible ? "is-active" : "")}>
-      <div class="modal-background"></div>
-      <div class="modal-card">
-        <header class="modal-card-head">
-          <p class="modal-card-title">Set label</p>
-          <button
-            class="delete"
-            onclick={msg.hideAddDialogModal}
-          ></button>
-        </header>
-        <section class="modal-card-body">
-
-        </section>
-        <footer class="modal-card-foot">
-          <a
-            class="button is-success"
-            onclick={msg.addDialog}
-          >Ok</a>
-          <a
-            class="button"
-            onclick={msg.hideAddDialogModal}
-          >Cancel</a>
-        </footer>
-      </div>
-    </div>
+    {addDialogModal(model,msg)}
   </div>
 );
 
