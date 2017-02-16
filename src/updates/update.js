@@ -14,6 +14,11 @@ const update = Object.assign({
     }
     return {selectedTab: clickedTab};
   },
+
+  hideModal: ({ modalType }) => {
+    console.log('hideModal', modalType);
+    return { modalType: ''};
+  },
 },
 dialogsUpdates);
 

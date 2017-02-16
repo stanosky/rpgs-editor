@@ -4,7 +4,7 @@ import { h } from 'hyperapp';
 
 const icon = ['fa-comments','fa-users', 'fa-tasks','fa-asterisk','fa-code'];
 
-const view = (model, msg) => (
+const view = (model, action) => (
   <div className="tabs is-centered is-boxed">
     <ul>
     {
@@ -12,7 +12,7 @@ const view = (model, msg) => (
       <li
         className={(model.selectedTab === tab ? "is-active" : "")}
       >
-        <a id={tab} onclick={msg.switchTab}>
+        <a id={tab} onclick={action.switchTab}>
           <span className="icon is-small"><i class={'fa ' + icon[index]}></i></span>
           <span>{tab}</span>
         </a>

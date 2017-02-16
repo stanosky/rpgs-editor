@@ -2,9 +2,9 @@
 
 import { h } from 'hyperapp';
 import dialogItems from './dialogItems';
-import addDialogModal from './addDialogModal';
+import addDialog from '../modals/addDialog';
 
-const view = (model, msg) => (
+const view = (model, action) => (
   <div id="DialogsTab" className={
     model.selectedTab === 'Dialogs' ? '' : 'is-hidden'
   }>
@@ -13,7 +13,7 @@ const view = (model, msg) => (
         <div className="panel-block">
           <button
             className="button"
-            onClick={msg.showAddDialogModal}
+            onClick={action.showAddDialogModal}
           >New dialog</button>
         </div>
         <div className="panel-block">
@@ -24,13 +24,12 @@ const view = (model, msg) => (
             </span>
           </p>
         </div>
-        {dialogItems(model, msg)}
+        {dialogItems(model, action)}
       </nav>
     </aside>
     <div className="editor-stage">
 
     </div>
-    {addDialogModal(model,msg)}
   </div>
 );
 
