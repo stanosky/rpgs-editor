@@ -2,9 +2,11 @@
 
 import { h } from 'hyperapp';
 import addDialog from './addDialog';
+import removeDialog from './removeDialog';
 
 const modals = [
-  {type: 'addDialog', view: addDialog}
+  {type: 'addDialog', view: addDialog},
+  {type: 'removeDialog', view: removeDialog},
 ]
 
 const view = (model, action) => (

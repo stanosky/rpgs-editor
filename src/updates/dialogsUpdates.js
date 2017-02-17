@@ -3,7 +3,7 @@
 import {Utils} from '../../../rpgs/rpgs/build/rpgs.min';
 
 const update = {
-  clearAddDialogModal: ({modalType,labelAlreadyExist}) => {
+  setupAddDialogModal: ({modalType,labelAlreadyExist}) => {
     return {modalType: 'addDialog', labelAlreadyExist:false};
   },
 
@@ -14,8 +14,10 @@ const update = {
     return {rpgs};
   },
 
-  deleteDialog: ({rpgs}, e) => {
-    rpgs.removeNode(e.currentTarget.id);
+  setupRemoveDialogModal: ({modalType}) => ({modalType:'removeDialog'}),
+
+  removeDialog: ({rpgs}, id) => {
+    rpgs.removeNode(id);
     return {rpgs};
   },
 

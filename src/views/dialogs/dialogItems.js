@@ -12,7 +12,7 @@ const view = (model, action) => (
           <a
             id={id}
             class="delete"
-            onclick={action.deleteDialog}
+            onclick={e => action.showRemoveDialogModal(e.target.id)}
           ></a>
         </div>
       );
