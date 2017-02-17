@@ -5,8 +5,8 @@ import dialogItems from './dialogItems';
 import addDialog from '../modals/addDialog';
 
 const view = (model, action) => (
-  <aside className="menu side-panel">
-    <nav className="panel">
+  <aside className="menu side-menu">
+    <nav className="panel side-panel is-marginless">
       <div className="panel-block">
         <p className="control">
           <a className="button" onClick={action.showAddDialogModal}>
@@ -41,7 +41,7 @@ const view = (model, action) => (
           className={'button ' + (model.selectedDialog === '' ? 'is-disabled' : '')}
         >
           <span class="icon is-small">
-            <i class="fa fa-commenting-o"></i>
+            <i class="fa fa-plus"></i>
           </span>
         </a>
       </p>
@@ -52,19 +52,19 @@ const view = (model, action) => (
           className={'button ' + (model.selectedDialog === '' ? 'is-disabled' : '')}
         >
           <span class="icon is-small">
-            <i class="fa fa-plus"></i>
+            <i class="fa fa-search-plus"></i>
           </span>
         </a>
         <a
           className={'button ' + (model.selectedDialog === '' ? 'is-disabled' : '')}
         >
           <span class="icon is-small">
-            <i class="fa fa-minus"></i>
+            <i class="fa fa-search-minus"></i>
           </span>
         </a>
       </p>
     </div>
-    <ul class="menu-list">
+    <ul class="menu-list node-list">
       {dialogItems(model, action)}
     </ul>
   </aside>
