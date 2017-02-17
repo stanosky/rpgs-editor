@@ -11,6 +11,11 @@ const effects = {
   commitAddDialogModal: (model, action) => {
     action.addDialog();
     action.hideModal();
+
+    let dialogs = model.rpgs.getDialogs();
+    let id = dialogs[dialogs.length-1].getId();
+
+    action.selectDialog(id);
   },
 
   showRemoveDialogModal: (model, action, id) => {
@@ -24,6 +29,7 @@ const effects = {
   commitRemoveDialogModal: (model, action, id) => {
     action.removeDialog(id);
     action.hideModal();
+    action.selectDialog('');
   }
 };
 

@@ -27,7 +27,9 @@ const update = {
     labelAlreadyExist = dialogs.filter(d => d.getLabel() === value).length > 0;
     //console.log('labelAlreadyExist',labelAlreadyExist);
     return {rpgs,labelAlreadyExist};
-  }
+  },
+
+  selectDialog: ({selectedDialog}, id) => ({selectedDialog: id}),
 };
 
 export default update;

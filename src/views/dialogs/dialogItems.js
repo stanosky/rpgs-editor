@@ -7,16 +7,21 @@ const view = (model, action) => (
       let id = d.getId();
       let label = d.getLabel();
       return (
-        <div className="panel-block">
-          <p>{label}</p>
+        <li>
           <a
             id={id}
-            class="delete"
-            onclick={e => action.showRemoveDialogModal(e.target.id)}
-          ></a>
-        </div>
+            onClick={e => action.selectDialog(e.target.id)}
+            className={model.selectedDialog === id ? 'is-active' : ''}
+          >{label}</a>
+        </li>
       );
     })
 );
 
 export default view;
+/*<a
+  id={id}
+  class="delete"
+  onclick={e => action.showRemoveDialogModal(e.target.id)}
+>
+</a>*/

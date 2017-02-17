@@ -9,4 +9,17 @@
   right: 0;
   bottom: 0;
   overflow: scroll;
+  background-color: hsl(0, 0%, 86%);
+}
+
+.stage-menu-top-left {
+  position: absolute;
+  top: 47px;
+  left: 310px;
+}
+
+.stage-menu-bottom-right {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
 }
