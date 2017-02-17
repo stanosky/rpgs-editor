@@ -2,7 +2,7 @@
 
 import { h } from 'hyperapp';
 
-const view = (model, msg) => (
+const view = (model, action) => (
     model.rpgs.getDialogs().map(d => {
       let id = d.getId();
       let label = d.getLabel();
@@ -12,7 +12,7 @@ const view = (model, msg) => (
           <a
             id={id}
             class="delete"
-            onclick={msg.deleteDialog}
+            onclick={action.deleteDialog}
           ></a>
         </div>
       );

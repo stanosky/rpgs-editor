@@ -1,21 +1,13 @@
 'use strict';
 
 import {Utils} from '../../../rpgs/rpgs/build/rpgs.min';
+import dialogsEffects from './dialogsEffects';
 
-const effects = {
-  getRandomName: (model, msg, prefix) => {
+const effects = Object.assign({
+  getRandomName: (model, action, prefix) => {
     return prefix + (Utils.getUUID().substr(0, 4))
   },
-  modalBody: (model, msg) => {
-    /*switch (model.modalType) {
-      case 'addDialog':
-        return addDialog(model, msg);
-        break;
-      default:
-        return '';
-    }*/
-    return '';
-  }
-};
+},
+dialogsEffects);
 
 export default effects;

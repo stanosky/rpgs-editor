@@ -1,7 +1,6 @@
 'use strict';
 
 import { h } from 'hyperapp';
-import { Utils } from '../../../../rpgs/rpgs/build/rpgs.min';
 
 const view = (model, action) => (
     <div className="modal-card">
@@ -22,8 +21,8 @@ const view = (model, action) => (
             }
             type="text"
             placeholder="Text input"
-            value={'Dialog-' + (Utils.getUUID().substr(0, 4))}
-            onKeyUp={action.onLabelChange}
+            value=""
+            onInput={action.onLabelChange}
           ></input>
           <span className="icon is-small">
             <i className={"fa "
@@ -34,7 +33,7 @@ const view = (model, action) => (
             className={"help "
               + (model.labelAlreadyExist ? "is-danger" : "is-hidden")
             }
-          >Label with that name already exists</span>
+          >Dialog with that label already exists</span>
         </p>
       </section>
       <footer className="modal-card-foot">
@@ -42,7 +41,7 @@ const view = (model, action) => (
           className={"button "
             + (model.labelAlreadyExist ? "is-disabled" : "is-success")
           }
-          onclick={action.addDialog}
+          onclick={action.commitAddDialogModal}
         >Ok</a>
         <a
           className="button"

@@ -8,7 +8,7 @@ const modals = [
 ]
 
 const view = (model, action) => (
-  <div className={"modal" + (model.modalType !== '' ? "is-active" : "")}>
+  <div className={"modal " + (model.modalVisible ? "is-active" : "")}>
     <div className="modal-background"></div>
     {modals.map(m => m.type === model.modalType ? m.view(model, action) : '')}
   </div>

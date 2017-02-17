@@ -3,17 +3,15 @@
 import {Utils} from '../../../rpgs/rpgs/build/rpgs.min';
 
 const update = {
-  showAddDialogModal: ({modalType,labelAlreadyExist}) => {
-    //let input = document.getElementById('dialogLabelInput');
-    //input.value = 'Dialog-' + (Utils.getUUID().substr(0, 4));
+  clearAddDialogModal: ({modalType,labelAlreadyExist}) => {
     return {modalType: 'addDialog', labelAlreadyExist:false};
   },
 
-  addDialog: ({rpgs,modalType}) => {
+  addDialog: ({rpgs}) => {
     let label = document.getElementById('dialogLabelInput').value;
-    rpgs.addNode('DialogNode',{label},false);
-    console.log(rpgs.serializeData());
-    return {rpgs,modalType:''};
+    rpgs.addNode('DialogNode', {label}, false);
+    //console.log(rpgs.serializeData());
+    return {rpgs};
   },
 
   deleteDialog: ({rpgs}, e) => {
@@ -25,7 +23,7 @@ const update = {
     let value = e.currentTarget.value;
     let dialogs = rpgs.getDialogs();
     labelAlreadyExist = dialogs.filter(d => d.getLabel() === value).length > 0;
-    console.log('labelAlreadyExist',labelAlreadyExist);
+    //console.log('labelAlreadyExist',labelAlreadyExist);
     return {rpgs,labelAlreadyExist};
   }
 };
