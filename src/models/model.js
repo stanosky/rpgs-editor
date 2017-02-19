@@ -8,7 +8,8 @@ const model = Object.assign({
   tabs: ['Dialogs','Actors','Quests','Variables','Scripts'],
   selectedTab: 'Dialogs',
   modalVisible: false,
-  modalType: '',
+  modalView: null,
+  tempNodeId: '',
 },
 dialogsModel);
 

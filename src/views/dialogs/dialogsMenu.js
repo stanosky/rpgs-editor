@@ -9,7 +9,7 @@ const view = (model, action) => (
     <nav className="panel side-panel is-marginless">
       <div className="panel-block">
         <p className="control">
-          <a className="button" onClick={action.showAddDialogModal}>
+          <a className="button" onClick={action.showEditDialogModal}>
             <span className="icon">
               <i className="fa fa-comments-o"></i>
             </span>
@@ -39,6 +39,7 @@ const view = (model, action) => (
       <p class="control">
         <a
           className={'button ' + (model.selectedDialog === '' ? 'is-disabled' : '')}
+          onClick={action.showEditTalkModal}
         >
           <span class="icon is-small">
             <i class="fa fa-plus"></i>

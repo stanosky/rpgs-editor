@@ -15,15 +15,18 @@ const update = Object.assign({
     return {selectedTab: clickedTab};
   },
 
+  setModal: ({ modalView }, view) => ({modalView: view}),
+
   showModal: ({ modalVisible }) => {
-    //console.log('showModal', modalVisible);
     return { modalVisible: true};
   },
 
-  hideModal: ({ modalVisible }) => {
-    //console.log('hideModal', modalVisible);
-    return { modalVisible: false};
+  hideModal: ({rpgs, modalVisible, modalView, tempNodeId }) => {
+    if(tempNodeId !== '') rpgs.removeNode(tempNodeId);
+    return {rpgs, modalVisible: false, modalView: null, tempNodeId: ''};
   },
+
+  setTempNodeId: ({tempNodeId}, id) => ({tempNodeId: id}),
 },
 dialogsUpdates);
 

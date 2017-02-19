@@ -8,8 +8,8 @@ const view = (model, action) => (
   <div id="DialogsTab" className={
     model.selectedTab === 'Dialogs' ? '' : 'is-hidden'
   }>
-    {stage(model, action)}
     {dialogsMenu(model, action)}
+    {stage(model, action)}    
   </div>
 );
 

@@ -3,9 +3,10 @@
 import { h } from 'hyperapp';
 
 const view = (model, action) => (
-    model.rpgs.getDialogs().map(d => {
+    model.rpgs.getNodes('DialogNode').map(d => {
       let id = d.getId();
       let label = d.getLabel();
+      //console.log('dialogItems');
       return (
         <li>
           <a
@@ -19,9 +20,3 @@ const view = (model, action) => (
 );
 
 export default view;
-/*<a
-  id={id}
-  class="delete"
-  onclick={e => action.showRemoveDialogModal(e.target.id)}
->
-</a>*/
