@@ -21,12 +21,15 @@ const update = Object.assign({
     return { modalVisible: true};
   },
 
-  hideModal: ({rpgs, modalVisible, modalView, tempNodeId }) => {
-    if(tempNodeId !== '') rpgs.removeNode(tempNodeId);
-    return {rpgs, modalVisible: false, modalView: null, tempNodeId: ''};
+  hideModal: ({rpgs, modalVisible, modalView, tempNode }) => {
+    if(tempNode !== '') rpgs.removeNode(tempNode);
+    return {rpgs, modalVisible: false, modalView: null, tempNode: ''};
   },
 
-  setTempNodeId: ({tempNodeId}, id) => ({tempNodeId: id}),
+  setTempNode: ({tempNode}, node) => {
+    //console.log('setTempNode',node);
+    return {tempNode: node}
+  },
 },
 dialogsUpdates);
 

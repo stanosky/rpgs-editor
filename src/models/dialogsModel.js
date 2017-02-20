@@ -2,7 +2,9 @@
 
 const model = {
   labelAlreadyExist: false,
-  selectedDialog: '',
+  currDialogNode: null,
+  currTalkNode: null,
+  currAnswerNode: null
 };
 
 export default model;

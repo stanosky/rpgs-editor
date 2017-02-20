@@ -16,8 +16,8 @@ const view = (model, action) => (
             <span>New dialog</span>
           </a>
           <a
-            onClick={e => action.showRemoveDialogModal(model.selectedDialog)}
-            className={'button ' + (model.selectedDialog === '' ? 'is-disabled' : '')}
+            onClick={action.showRemoveDialogModal}
+            className={'button ' + (model.currDialogNode === null ? 'is-disabled' : '')}
           >
             <span className="icon">
               <i className="fa fa-trash"></i>
@@ -38,7 +38,7 @@ const view = (model, action) => (
     <div className="stage-menu-top-left">
       <p class="control">
         <a
-          className={'button ' + (model.selectedDialog === '' ? 'is-disabled' : '')}
+          className={'button ' + (model.currDialogNode === null ? 'is-disabled' : '')}
           onClick={action.showEditTalkModal}
         >
           <span class="icon is-small">
@@ -50,14 +50,14 @@ const view = (model, action) => (
     <div className="stage-menu-bottom-right">
       <p class="control">
         <a
-          className={'button ' + (model.selectedDialog === '' ? 'is-disabled' : '')}
+          className={'button ' + (model.currDialogNode === null ? 'is-disabled' : '')}
         >
           <span class="icon is-small">
             <i class="fa fa-search-plus"></i>
           </span>
         </a>
         <a
-          className={'button ' + (model.selectedDialog === '' ? 'is-disabled' : '')}
+          className={'button ' + (model.currDialogNode === null ? 'is-disabled' : '')}
         >
           <span class="icon is-small">
             <i class="fa fa-search-minus"></i>

@@ -2,6 +2,10 @@
 
 import { h } from 'hyperapp';
 
+const isActive = (model, id) => {
+  return model.currDialogNode !== null && model.currDialogNode.getId() === id;
+};
+
 const view = (model, action) => (
     model.rpgs.getNodes('DialogNode').map(d => {
       let id = d.getId();
@@ -11,8 +15,8 @@ const view = (model, action) => (
         <li>
           <a
             id={id}
-            onClick={e => action.selectDialog(e.target.id)}
-            className={model.selectedDialog === id ? 'is-active' : ''}
+            onClick={e => action.setDialogNode(model.rpgs.findNode(e.target.id))}
+            className={isActive(model, id) ? 'is-active' : ''}
           >{label}</a>
         </li>
       );
@@ -20,3 +24,4 @@ const view = (model, action) => (
 );
 
 export default view;
+//className={model.currDialogNode.getId() === id ? 'is-active' : ''}

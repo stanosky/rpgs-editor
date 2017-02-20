@@ -1,11 +1,11 @@
 'use strict';
 
 import { h } from 'hyperapp';
-import talkNode from '../dialogs/talkNode';
+import talkNodes from '../dialogs/talkNodes';
 
 const view = (model, action) => (
   <div className="editor-stage blueprint">
-    {talkNode(model, action)}
+    {talkNodes(model, action)}
   </div>
 );
 

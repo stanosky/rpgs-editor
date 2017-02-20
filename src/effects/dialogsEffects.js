@@ -7,33 +7,28 @@ import editTalk from '../views/modals/editTalk';
 const effects = {
   showEditDialogModal: (model, action) => {
     let tempNode = createTempNode(model.rpgs, 'DialogNode', {})
-    let id = tempNode.getId();
     let input;
 
-    action.setTempNodeId(id);
+    action.setTempNode(tempNode);
     action.setModal(addDialog);
     input = document.getElementById('nodeLabelInput');
-    input.value = getRandomLabel('Dialog-', id);
+    input.value = getRandomLabel('Dialog-', tempNode.getId());
     action.showModal();
   },
 
-  showRemoveDialogModal: (model, action, id) => {
+  showRemoveDialogModal: (model, action) => {
     action.setModal(removeDialog);
-    let confirmBtn = document.getElementById('confirmBtn');
-    //console.log('id',id);
-    confirmBtn['data-id'] = id;
     action.showModal();
   },
 
   showEditTalkModal: (model, action) => {
     let tempNode = createTempNode(model.rpgs, 'TalkNode', {})
-    let id = tempNode.getId();
     let input;
 
-    action.setTempNodeId(id);
+    action.setTempNode(tempNode);
     action.setModal(editTalk)
     input = document.getElementById('nodeLabelInput');
-    input.value = getRandomLabel('Talk-', id);
+    input.value = getRandomLabel('Talk-', tempNode.getId());
     action.showModal();
   },
 
@@ -42,19 +37,20 @@ const effects = {
     action.hideModal();
 
     let dialogs = model.rpgs.getNodes('DialogNode');
-    let id = dialogs[dialogs.length-1].getId();
+    let dialogNode = dialogs[dialogs.length-1];//.getId();
 
-    action.selectDialog(id);
+    action.setDialogNode(dialogNode);
   },
 
-  commitRemoveDialogModal: (model, action, id) => {
-    action.removeDialog(id);
+  commitRemoveDialogModal: (model, action) => {
+    action.removeDialog();
     action.hideModal();
-    action.selectDialog('');
+    action.setDialogNode(null);
   },
 
   commitEditTalkModal: (model, action) => {
-
+    action.addTalk();
+    action.hideModal();
   }
 };
 

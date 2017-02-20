@@ -19,7 +19,7 @@ const view = (model, action) => (
         id="confirmBtn"
         data-id=""
         className="button is-warning"
-        onclick={e => action.commitRemoveDialogModal(e.target['data-id'])}
+        onclick={action.commitRemoveDialogModal}
       >Delete</a>
       <a
         className="button"
