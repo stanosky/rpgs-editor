@@ -35,11 +35,14 @@ const update = {
     return {rpgs, tempNode};
   },
 
-  addTalk: ({rpgs, tempNode, currDialogNode}) => {
+  addTalk: ({rpgs, tempNode, currDialogNode, currTalkNode}) => {
     let label = document.getElementById('nodeLabelInput').value;
-    tempNode.setLabel(label);    
-    currDialogNode.addChild(tempNode.getId());
-    return {rpgs, tempNode, currDialogNode};
+    tempNode.setLabel(label);
+    if(currTalkNode !== tempNode) {
+      currTalkNode = tempNode;
+      currDialogNode.addChild(currTalkNode.getId());
+    }
+    return {rpgs, tempNode, currDialogNode, currTalkNode};
   },
 
   onDialogLabelChange: ({rpgs,labelAlreadyExist,tempNode}, value) => {

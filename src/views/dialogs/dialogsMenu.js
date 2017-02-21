@@ -9,11 +9,20 @@ const view = (model, action) => (
     <nav className="panel side-panel is-marginless">
       <div className="panel-block">
         <p className="control">
-          <a className="button" onClick={action.showEditDialogModal}>
+          <a className="button" onClick={e => action.showEditDialogModal(null)}>
             <span className="icon">
               <i className="fa fa-comments-o"></i>
             </span>
-            <span>New dialog</span>
+            <span>New</span>
+          </a>
+          <a
+            onClick={e => action.showEditDialogModal(model.currDialogNode)}
+            className={'button ' + (model.currDialogNode === null ? 'is-disabled' : '')}
+          >
+            <span className="icon">
+              <i className="fa fa-pencil"></i>
+            </span>
+            <span>Edit</span>
           </a>
           <a
             onClick={action.showRemoveDialogModal}
@@ -22,7 +31,7 @@ const view = (model, action) => (
             <span className="icon">
               <i className="fa fa-trash"></i>
             </span>
-            <span>Remove dialog</span>
+            <span>Remove</span>
           </a>
         </p>
       </div>
@@ -39,7 +48,7 @@ const view = (model, action) => (
       <p class="control">
         <a
           className={'button ' + (model.currDialogNode === null ? 'is-disabled' : '')}
-          onClick={action.showEditTalkModal}
+          onClick={e => action.showEditTalkModal(null)}
         >
           <span class="icon is-small">
             <i class="fa fa-plus"></i>

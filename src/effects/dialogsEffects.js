@@ -5,14 +5,15 @@ import removeDialog from '../views/modals/removeDialog';
 import editTalk from '../views/modals/editTalk';
 
 const effects = {
-  showEditDialogModal: (model, action) => {
-    let tempNode = createTempNode(model.rpgs, 'DialogNode', {})
+  showEditDialogModal: (model, action, node) => {
+    let tempNode = node || createTempNode(model.rpgs, 'DialogNode', {});
+    let label = tempNode.getLabel();
     let input;
 
     action.setTempNode(tempNode);
     action.setModal(addDialog);
     input = document.getElementById('nodeLabelInput');
-    input.value = getRandomLabel('Dialog-', tempNode.getId());
+    input.value = label || getRandomLabel('Dialog-', tempNode.getId());
     action.showModal();
   },
 
@@ -21,14 +22,15 @@ const effects = {
     action.showModal();
   },
 
-  showEditTalkModal: (model, action) => {
-    let tempNode = createTempNode(model.rpgs, 'TalkNode', {})
+  showEditTalkModal: (model, action, node) => {
+    let tempNode = node || createTempNode(model.rpgs, 'TalkNode', {});
+    let label = tempNode.getLabel();
     let input;
 
     action.setTempNode(tempNode);
     action.setModal(editTalk)
     input = document.getElementById('nodeLabelInput');
-    input.value = getRandomLabel('Talk-', tempNode.getId());
+    input.value = label || getRandomLabel('Talk-', tempNode.getId());
     action.showModal();
   },
 

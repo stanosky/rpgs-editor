@@ -37,6 +37,7 @@ const answerItems = (model, action) => {
 
 const view = (model, action) => {
   let tempNode = model.tempNode;
+  
   return (
     <div className="modal-card"
       oncreate={action.clearLabelCheck}
@@ -78,7 +79,9 @@ const view = (model, action) => {
               className="textarea"
               placeholder="Textarea"
               oninput={e => tempNode.setText(e.target.value)}
-            ></textarea>
+            >
+              {tempNode.getText()}
+            </textarea>
           </p>
           <label className="label">Answers</label>
 

@@ -13,12 +13,18 @@ const view = (model, action) => {
           <p class="card-header-title">
             {node.getLabel()}
           </p>
-          <a class="card-header-icon">
+          <a
+            class="card-header-icon"
+            onclick=""
+          >
             <span class="icon">
               <i class="fa fa-trash"></i>
             </span>
           </a>
-          <a class="card-header-icon">
+          <a
+            class="card-header-icon"
+            onclick={e => action.showEditTalkModal(model.currTalkNode)}
+          >
             <span class="icon">
               <i class="fa fa-pencil"></i>
             </span>
