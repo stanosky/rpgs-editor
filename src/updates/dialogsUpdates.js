@@ -2,6 +2,7 @@
 import {createTempNode} from '../utils';
 import {Utils} from '../../../rpgs/rpgs/build/rpgs.min';
 
+
 const update = {
   clearLabelCheck: ({labelAlreadyExist}) => ({labelAlreadyExist: false}),
 
@@ -30,7 +31,6 @@ const update = {
     let children = tempNode.getChildren();
     let index = children.indexOf(id);
 
-    rpgs.removeNode(id);
     tempNode.removeChild(index);
     return {rpgs, tempNode};
   },
@@ -66,6 +66,10 @@ const update = {
 
   setDialogNode: ({currDialogNode}, node) => {
     return {currDialogNode: node};
+  },
+
+  setTalkNode: ({currTalkNode}, node) => {
+    return {currTalkNode: node};
   },
 };
 

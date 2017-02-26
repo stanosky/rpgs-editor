@@ -25,8 +25,8 @@ const answerItems = (model, action) => {
             className="button"
             onclick={e => action.removeAnswer(e.currentTarget.id)}
           >
-            <span className="icon is-small">
-              <i className="fa fa-minus"></i>
+            <span className="icon">
+              <i className="fa fa-trash"></i>
             </span>
           </a>
         </div>
@@ -37,7 +37,7 @@ const answerItems = (model, action) => {
 
 const view = (model, action) => {
   let tempNode = model.tempNode;
-  
+
   return (
     <div className="modal-card"
       oncreate={action.clearLabelCheck}
@@ -77,7 +77,7 @@ const view = (model, action) => {
           <p className="control">
             <textarea
               className="textarea"
-              placeholder="Textarea"
+              placeholder="Actor talk"
               oninput={e => tempNode.setText(e.target.value)}
             >
               {tempNode.getText()}
@@ -95,7 +95,7 @@ const view = (model, action) => {
               <span className="icon is-small">
                 <i className="fa fa-plus"></i>
               </span>
-              Add answer
+              <span>Add answer</span>
             </a>
           </p>
         </section>

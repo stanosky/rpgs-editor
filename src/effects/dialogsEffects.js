@@ -2,7 +2,9 @@
 import {getRandomLabel,createTempNode} from '../utils';
 import addDialog from '../views/modals/addDialog';
 import removeDialog from '../views/modals/removeDialog';
+import removeTalk from '../views/modals/removeTalk';
 import editTalk from '../views/modals/editTalk';
+
 
 const effects = {
   showEditDialogModal: (model, action, node) => {
@@ -34,6 +36,11 @@ const effects = {
     action.showModal();
   },
 
+  showRemoveTalkModal: (model, action) => {
+    action.setModal(removeTalk);
+    action.showModal();
+  },
+
   commitEditDialogModal: (model, action) => {
     action.addDialog();
     action.hideModal();
@@ -45,9 +52,19 @@ const effects = {
   },
 
   commitRemoveDialogModal: (model, action) => {
-    action.removeDialog();
-    action.hideModal();
+    let id = model.currDialogNode.getId();
     action.setDialogNode(null);
+    model.rpgs.removeNode(id);
+    action.hideModal();
+  },
+
+  commitRemoveTalkModal: (model, action) => {
+    let id = model.currTalkNode.getId();
+    let children = model.currDialogNode.getChildren();
+    let index = children.indexOf(id);
+    model.currDialogNode.removeChild(index);
+    action.setTalkNode(null);
+    action.hideModal();
   },
 
   commitEditTalkModal: (model, action) => {

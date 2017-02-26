@@ -5,7 +5,7 @@ import { h } from 'hyperapp';
 const view = (model, action) => {
   let talkNodesIds = model.currDialogNode !== null ? model.currDialogNode.getChildren() : [];
   let talkNodes = talkNodesIds.map(id => model.rpgs.findNode(id));
-
+  console.log('talkNodesIds',talkNodesIds);
   return talkNodes.map(node => {
     return (
       <div class="card talk-node">
@@ -15,7 +15,7 @@ const view = (model, action) => {
           </p>
           <a
             class="card-header-icon"
-            onclick=""
+            onClick={action.showRemoveTalkModal}
           >
             <span class="icon">
               <i class="fa fa-trash"></i>
