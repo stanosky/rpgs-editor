@@ -1,5 +1,5 @@
 'use strict';
-import {getRandomLabel,createTempNode} from '../utils';
+import {getRandomLabel,createTempNode,getNodeDataList} from '../utils';
 import addDialog from '../views/modals/addDialog';
 import removeDialog from '../views/modals/removeDialog';
 import removeTalk from '../views/modals/removeTalk';
@@ -20,19 +20,26 @@ const effects = {
   },
 
   showRemoveDialogModal: (model, action) => {
+    //console.log('getNodeDataList:',getNodeDataList(model.rpgs, model.currDialogNode));
     action.setModal(removeDialog);
     action.showModal();
   },
 
-  showEditTalkModal: (model, action, node) => {
-    let tempNode = node || createTempNode(model.rpgs, 'TalkNode', {});
-    let label = tempNode.getLabel();
-    let input;
-
-    action.setTempNode(tempNode);
-    action.setModal(editTalk)
+  showEditTalkModal: (model, action, id) => {
+    let tempNode, input, label;
+    if(id === '') {
+      model.tempRpgs.addNode('TalkNode', {});
+      model.tempNodeData = [];
+    } else {
+      let node = model.rpgs.findNode(id);
+      model.tempNodeData = getNodeDataList(model.rpgs, node);
+      model.tempRpgs.mergeNodes(model.tempNodeData);
+    }
+    model.tempNode = model.tempRpgs.getNodes()[0];
+    label = model.tempNode.getLabel();
+    action.setModal(editTalk);
     input = document.getElementById('nodeLabelInput');
-    input.value = label || getRandomLabel('Talk-', tempNode.getId());
+    input.value = label || getRandomLabel('Talk-', model.tempNode.getId());
     action.showModal();
   },
 
@@ -63,7 +70,7 @@ const effects = {
     let children = model.currDialogNode.getChildren();
     let index = children.indexOf(id);
     model.currDialogNode.removeChild(index);
-    action.setTalkNode(null);
+    //action.setTalkNode(null);
     action.hideModal();
   },
 

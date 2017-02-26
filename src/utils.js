@@ -7,4 +7,17 @@ const createTempNode = (rpgs, type, params) => {
   return nodes[index];
 };
 
-module.exports = {getRandomLabel,createTempNode};
+const getNodeDataList = (rpgs, node) => {
+  return node !== null ? node.getChildren().reduce((prevVal, currVal) => {
+    let currNode = rpgs.findNode(currVal);
+    let children = currNode.getChildren();
+
+    if(children.length > 0) {
+      return prevVal.concat(getNodeDataList(rpgs, currNode));
+    } else {
+      return prevVal.concat(currNode.getData());
+    }
+  },[node.getData()]) : [];
+};
+
+module.exports = {getRandomLabel, createTempNode, getNodeDataList};

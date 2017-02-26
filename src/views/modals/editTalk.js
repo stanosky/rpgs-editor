@@ -3,10 +3,10 @@
 import { h } from 'hyperapp';
 
 const answerItems = (model, action) => {
-  let answers = model.tempNode !== null ? model.tempNode.getChildren() : [];
+  let answers = model.tempNode.getChildren();
 
   return answers.map(a => {
-    let answerNode = model.rpgs.findNode(a);
+    let answerNode = model.tempRpgs.findNode(a);
 
     return (
       <div className="columns">

@@ -5,11 +5,13 @@ import dialogsModel from './dialogsModel';
 
 const model = Object.assign({
   rpgs: new RPGSystem(),
+  tempRpgs: new RPGSystem(),
   tabs: ['Dialogs','Actors','Quests','Variables','Scripts'],
   selectedTab: 'Dialogs',
   modalVisible: false,
   modalView: null,
-  tempNode: null
+  tempNode: null,
+  tempNodeData: null
 },
 dialogsModel);
 

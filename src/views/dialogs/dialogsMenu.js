@@ -48,7 +48,7 @@ const view = (model, action) => (
       <p class="control">
         <a
           className={'button ' + (model.currDialogNode === null ? 'is-disabled' : '')}
-          onClick={e => action.showEditTalkModal(null)}
+          onClick={e => action.showEditTalkModal('')}
         >
           <span class="icon is-small">
             <i class="fa fa-plus"></i>

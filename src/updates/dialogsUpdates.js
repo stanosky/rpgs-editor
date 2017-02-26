@@ -1,5 +1,5 @@
 'use strict';
-import {createTempNode} from '../utils';
+import {createTempNode, getNodeDataList} from '../utils';
 import {Utils} from '../../../rpgs/rpgs/build/rpgs.min';
 
 
@@ -20,29 +20,38 @@ const update = {
     return {rpgs, currDialogNode: null};
   },
 
-  addAnswer: ({rpgs,tempNode}) => {
-    let answerNode = createTempNode(rpgs, 'AnswerNode', {});
+  addAnswer: ({tempRpgs, tempNode}) => {
+    tempRpgs.addNode('AnswerNode', {});
+    let nodes = tempRpgs.getNodes();
+    let index = nodes.length - 1;
+    let answerNode = nodes[index];
 
     tempNode.addChild(answerNode.getId());
-    return {rpgs,tempNode};
+    return {tempRpgs, tempNode};
   },
 
-  removeAnswer: ({rpgs, tempNode}, id) => {
+  removeAnswer: ({tempRpgs, tempNode}, id) => {
     let children = tempNode.getChildren();
     let index = children.indexOf(id);
 
     tempNode.removeChild(index);
-    return {rpgs, tempNode};
+    return {tempRpgs, tempNode};
   },
 
-  addTalk: ({rpgs, tempNode, currDialogNode, currTalkNode}) => {
+  addTalk: ({rpgs, tempRpgs, tempNode, tempNodeData, currDialogNode}) => {
     let label = document.getElementById('nodeLabelInput').value;
+    let id = tempNode.getId();
+    let nodeToReplace = rpgs.findNode(id);
+
+    tempNodeData.forEach(n => {
+      console.log('remove nodes',n.class,n.uuid);
+      rpgs.removeNode(n.uuid);
+    });
+
     tempNode.setLabel(label);
-    if(currTalkNode !== tempNode) {
-      currTalkNode = tempNode;
-      currDialogNode.addChild(currTalkNode.getId());
-    }
-    return {rpgs, tempNode, currDialogNode, currTalkNode};
+    rpgs.mergeNodes(tempRpgs.getData());
+    currDialogNode.addChild(id);
+    return {rpgs, tempRpgs, tempNode, tempNodeData, currDialogNode};
   },
 
   onDialogLabelChange: ({rpgs,labelAlreadyExist,tempNode}, value) => {
@@ -54,14 +63,14 @@ const update = {
     return {rpgs,labelAlreadyExist,tempNode};
   },
 
-  onTalkLabelChange: ({rpgs,currDialogNode,labelAlreadyExist,tempNode}, value) => {
+  onTalkLabelChange: ({rpgs,tempNode,currDialogNode,labelAlreadyExist}, value) => {
     let talksIds = currDialogNode.getChildren();
     let talks = talksIds.map(id => rpgs.findNode(id));
 
-    labelAlreadyExist = talks.filter(t => t.getLabel() === value).length > 0;
     tempNode.setLabel(value);
+    labelAlreadyExist = talks.filter(t => t.getLabel() === value).length > 0;
     //console.log('labelAlreadyExist',labelAlreadyExist);
-    return {rpgs,currDialogNode,labelAlreadyExist,tempNode};
+    return {rpgs,tempNode,currDialogNode,labelAlreadyExist};
   },
 
   setDialogNode: ({currDialogNode}, node) => {
