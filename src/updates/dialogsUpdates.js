@@ -1,16 +1,13 @@
 'use strict';
-import {createTempNode, getNodeDataList} from '../utils';
+import {mergeTempData} from '../utils';
 import {Utils} from '../../../rpgs/rpgs/build/rpgs.min';
 
 
 const update = {
-  clearLabelCheck: ({labelAlreadyExist}) => ({labelAlreadyExist: false}),
-
-  addDialog: ({rpgs,tempNode}) => {
-    let label = document.getElementById('nodeLabelInput').value;
-    tempNode.setLabel(label);
-    //console.log(rpgs.serializeData());
-    return {rpgs, tempNode: null};
+  addDialog: ({rpgs, tempRpgs, tempNode, tempNodeData, currDialogNode}) => {
+    mergeTempData(rpgs, tempRpgs, tempNode, tempNodeData);
+    currDialogNode = rpgs.findNode(tempNode.getId());
+    return {rpgs, tempRpgs, tempNode, tempNodeData, currDialogNode};
   },
 
   removeDialog: ({rpgs,currDialogNode}) => {
@@ -25,8 +22,9 @@ const update = {
     let nodes = tempRpgs.getNodes();
     let index = nodes.length - 1;
     let answerNode = nodes[index];
-
+    //console.log('addAnswer::answerNode',answerNode.getId());
     tempNode.addChild(answerNode.getId());
+    console.log('tempNode',tempNode.getChildren());
     return {tempRpgs, tempNode};
   },
 
@@ -39,18 +37,8 @@ const update = {
   },
 
   addTalk: ({rpgs, tempRpgs, tempNode, tempNodeData, currDialogNode}) => {
-    let label = document.getElementById('nodeLabelInput').value;
-    let id = tempNode.getId();
-    let nodeToReplace = rpgs.findNode(id);
-
-    tempNodeData.forEach(n => {
-      console.log('remove nodes',n.class,n.uuid);
-      rpgs.removeNode(n.uuid);
-    });
-
-    tempNode.setLabel(label);
-    rpgs.mergeNodes(tempRpgs.getData());
-    currDialogNode.addChild(id);
+    mergeTempData(rpgs, tempRpgs, tempNode, tempNodeData);
+    currDialogNode.addChild(tempNode.getId());
     return {rpgs, tempRpgs, tempNode, tempNodeData, currDialogNode};
   },
 

@@ -8,6 +8,7 @@ const model = Object.assign({
   tempRpgs: new RPGSystem(),
   tabs: ['Dialogs','Actors','Quests','Variables','Scripts'],
   selectedTab: 'Dialogs',
+  labelAlreadyExist: false,
   modalVisible: false,
   modalView: null,
   tempNode: null,

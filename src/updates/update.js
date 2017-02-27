@@ -15,21 +15,25 @@ const update = Object.assign({
     return {selectedTab: clickedTab};
   },
 
+  clearLabelCheck: ({labelAlreadyExist}) => ({labelAlreadyExist: false}),
+
   setModal: ({ modalView }, view) => ({modalView: view}),
 
-  showModal: ({ modalVisible }) => {
-    return { modalVisible: true};
-  },
+  showModal: ({ modalVisible }) => ({ modalVisible: true}),
 
-  hideModal: ({tempRpgs, tempNode, modalVisible, modalView }) => {
-    //if(tempNode !== '') rpgs.removeNode(tempNode);
+  hideModal: ({tempRpgs, tempNode, tempNodeData, modalVisible, modalView }) => {
     tempRpgs.clearData();
-    return {tempRpgs, tempNode: null, modalVisible: false, modalView: null};
+    return {tempRpgs, tempNode: null, tempNodeData: null, modalVisible: false, modalView: null};
   },
 
   setTempNode: ({tempNode}, node) => {
     //console.log('setTempNode',node);
     return {tempNode: node}
+  },
+
+  setTempNodeData: ({tempNodeData}, data) => {
+    //console.log('setTempNodeData',data);
+    return {tempNodeData: data}
   },
 },
 dialogsUpdates);

@@ -2,21 +2,20 @@
 
 import { h } from 'hyperapp';
 import dialogItems from './dialogItems';
-import addDialog from '../modals/addDialog';
 
 const view = (model, action) => (
   <aside className="menu side-menu">
     <nav className="panel side-panel is-marginless">
       <div className="panel-block">
         <p className="control">
-          <a className="button" onClick={e => action.showEditDialogModal(null)}>
+          <a className="button" onClick={e => action.showEditDialogModal('')}>
             <span className="icon">
               <i className="fa fa-comments-o"></i>
             </span>
             <span>New</span>
           </a>
           <a
-            onClick={e => action.showEditDialogModal(model.currDialogNode)}
+            onClick={e => action.showEditDialogModal(model.currDialogNode.getId())}
             className={'button ' + (model.currDialogNode === null ? 'is-disabled' : '')}
           >
             <span className="icon">
