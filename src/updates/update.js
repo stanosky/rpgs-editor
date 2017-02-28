@@ -35,6 +35,24 @@ const update = Object.assign({
     //console.log('setTempNodeData',data);
     return {tempNodeData: data}
   },
+
+  drop: model => ({ dragNode: null }),
+
+  drag: (model, { dragNode, event }) => {
+    dragNode.x = event.pageX - 300;
+    dragNode.y = event.pageY - 37;
+    dragNode.offsetX = event.offsetX;
+    dragNode.offsetY = event.offsetY;
+    return {dragNode};
+  },
+
+  move: (model, { x, y }) => {
+    if(model.dragNode !== null) {
+      model.dragNode.x = x;
+      model.dragNode.y = y;
+    }
+    return model;
+  }
 },
 dialogsUpdates);
 

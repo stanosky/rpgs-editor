@@ -1,5 +1,9 @@
-/**
- * There are no subs for this application
- * But this is an example of directory and file structure for subs
- * Seperation of concerns are key in functional paradigms!
- */
+'use strict';
+
+const subscriptions = [
+    (_, actions) => addEventListener("mouseup", actions.drop),
+    (_, actions) => addEventListener("mousemove", e =>
+        actions.move({ x: e.pageX - 300, y: e.pageY - 37 }))
+];
+
+module.exports = subscriptions;

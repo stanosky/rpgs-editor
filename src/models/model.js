@@ -12,7 +12,13 @@ const model = Object.assign({
   modalVisible: false,
   modalView: null,
   tempNode: null,
-  tempNodeData: null
+  tempNodeData: null,
+  dragNode: null,
+  dragging: false,
+  x: 0,
+  y: 0,
+  offsetX: 0,
+  offsetY: 0
 },
 dialogsModel);
 
