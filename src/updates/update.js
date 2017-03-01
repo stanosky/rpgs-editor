@@ -40,7 +40,7 @@ const update = Object.assign({
 
   drag: (model, { dragNode, event }) => {
     dragNode.x = event.pageX - 300;
-    dragNode.y = event.pageY - 37;
+    dragNode.y = event.pageY - 49;
     dragNode.offsetX = event.offsetX;
     dragNode.offsetY = event.offsetY;
     return {dragNode};
