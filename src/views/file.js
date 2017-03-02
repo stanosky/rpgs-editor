@@ -5,7 +5,10 @@ import { h } from 'hyperapp';
 const view = (model, action) => (
   <div class="nav-right nav-menu">
     <span class="nav-item">
-      <a class="button is-white">
+      <a
+        class="button is-white"
+        onclick={action.showLoadFileModal}
+      >
         <span class="icon is-small">
           <i class="fa fa-upload"></i>
         </span>

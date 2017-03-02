@@ -20,7 +20,7 @@ body, html {
   left: 300px;
   right: 0;
   bottom: 0;
-  overflow: scroll;
+  overflow: auto;
   background-color: hsl(0, 0%, 86%);
 }
 
@@ -45,7 +45,7 @@ body, html {
   height:calc(100% - 87px);
 }
 .blueprint {
-  background-color:hsl(171, 100%, 41%);
+  background-color:hsl(0, 0%, 71%);
   background-image: linear-gradient(white 2px, transparent 2px),
   linear-gradient(90deg, white 2px, transparent 2px),
   linear-gradient(rgba(255,255,255,.3) 1px, transparent 1px),
@@ -57,8 +57,6 @@ body, html {
 .talk-node {
   position: absolute;
   width: 350px;
-  top: 100px;
-  left: 50px;
 }
 
 .drag-border {

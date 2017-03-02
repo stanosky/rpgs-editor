@@ -12,9 +12,8 @@ const view = (model, action) => {
       <div
         className={"card talk-node " + (model.dragNode === node ? "drag-border" : "")}
         style={{
-            position: "absolute",
-            left: node.x - node.offsetX + "px",
-            top: node.y - node.offsetY + "px",
+            left: node.x + "px",
+            top: node.y + "px",
             'z-index': model.dragNode === node ? 1 : 0
         }}
       >

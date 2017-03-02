@@ -26,6 +26,8 @@ const update = Object.assign({
     return {tempRpgs, tempNode: null, tempNodeData: null, modalVisible: false, modalView: null};
   },
 
+  setLoadingFile: ({loadingFile}, value) => ({loadingFile: value}),
+
   setTempNode: ({tempNode}, node) => {
     //console.log('setTempNode',node);
     return {tempNode: node}
@@ -39,17 +41,20 @@ const update = Object.assign({
   drop: model => ({ dragNode: null }),
 
   drag: (model, { dragNode, event }) => {
-    dragNode.x = event.pageX - 300;
-    dragNode.y = event.pageY - 49;
-    dragNode.offsetX = event.offsetX;
-    dragNode.offsetY = event.offsetY;
+    model.offsetX = event.offsetX;
+    model.offsetY = event.offsetY;
+    dragNode.x = event.pageX;
+    dragNode.y = event.pageY;
+    //console.log(dragNode.x,dragNode.y,model.offsetX,model.offsetY)
+    //dragNode.offsetX = event.offsetX;
+    //dragNode.offsetY = event.offsetY;
     return {dragNode};
   },
 
   move: (model, { x, y }) => {
     if(model.dragNode !== null) {
-      model.dragNode.x = x;
-      model.dragNode.y = y;
+      model.dragNode.x = x - 300 - model.offsetX;
+      model.dragNode.y = y - 49 - model.offsetY;
     }
     return model;
   }

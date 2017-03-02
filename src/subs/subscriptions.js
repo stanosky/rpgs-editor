@@ -3,7 +3,7 @@
 const subscriptions = [
     (_, actions) => addEventListener("mouseup", actions.drop),
     (_, actions) => addEventListener("mousemove", e =>
-        actions.move({ x: e.pageX - 300, y: e.pageY - 37 }))
+        actions.move({ x: e.pageX, y: e.pageY}))
 ];
 
 module.exports = subscriptions;

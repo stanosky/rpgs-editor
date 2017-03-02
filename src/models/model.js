@@ -14,11 +14,10 @@ const model = Object.assign({
   tempNode: null,
   tempNodeData: null,
   dragNode: null,
-  dragging: false,
-  x: 0,
-  y: 0,
   offsetX: 0,
-  offsetY: 0
+  offsetY: 0,
+  dragging: false,
+  loadingFile: false
 },
 dialogsModel);
 

@@ -21,22 +21,3 @@ const view = (model, action) => (
 );
 
 export default view;
-/*
-<div className="tabs is-centered is-boxed">
-  <ul>
-  {
-    model.tabs.map((tab,index) =>
-    <li
-      className={(model.selectedTab === tab ? "is-active" : "")}
-    >
-      <a id={tab} onclick={action.switchTab}>
-        <span className="icon is-small"><i class={'fa ' + icon[index]}></i></span>
-        <span>{tab}</span>
-      </a>
-    </li>
-    )
-  }
-
-  </ul>
-</div>
- */
