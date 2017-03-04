@@ -6,6 +6,8 @@ const hooks = {
     onUpdate: (last, model) => {
         //console.log("[Update] %c%s -> %c%s", "color: gray", last, "color: blue", model)
         //console.log('rpgs:', model.rpgs.getNodes(),'tempRpgs:',model.tempRpgs.getNodes());
+        //let stage = document.getElementById('dialogsStage');
+        //console.log('scroll',stage.scrollLeft,stage.scrollTop);
     }
 }
 

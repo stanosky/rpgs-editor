@@ -38,26 +38,38 @@ const update = Object.assign({
     return {tempNodeData: data}
   },
 
+  setStageSize: ({width,height}) => {
+    console.log('setStageSize',width,height);
+    return {stageWidth:width,stageHeight:height};
+  },
+
   drop: model => ({ dragNode: null }),
 
   drag: (model, { dragNode, event }) => {
     let id = dragNode.getId();
     let len = model.currDialogNode.getChildren().length;
+    let stage = document.getElementById('dialogsStage');
+
     model.currDialogNode.setChildIndex(id,len-1);
 
     model.offsetX = 300 + event.offsetX;
     model.offsetY = 49 + event.offsetY;
-    dragNode.x = event.pageX - model.offsetX;
-    dragNode.y = event.pageY - model.offsetY;
-
+    dragNode.x = event.pageX - model.offsetX + stage.scrollLeft;
+    dragNode.y = event.pageY - model.offsetY + stage.scrollTop;
     //console.log(dragNode.x,dragNode.y,model.offsetX,model.offsetY);
     return {dragNode};
   },
 
   move: (model, { x, y }) => {
+    let stage = document.getElementById('dialogsStage');
+    let scrollWidth = stage.scrollWidth;
+    let scrollHeight = stage.scrollHeight;
+
     if(model.dragNode !== null) {
-      model.dragNode.x = x - model.offsetX;
-      model.dragNode.y = y - model.offsetY;
+      model.dragNode.x = x - model.offsetX + stage.scrollLeft;
+      model.dragNode.y = y - model.offsetY + stage.scrollTop;
+      model.stageWidth = model.stageWidth > scrollWidth ? model.stageWidth : scrollWidth;
+      model.stageHeight = model.stageHeight > scrollHeight ? model.stageHeight : scrollHeight;
     }
     return model;
   }

@@ -22,9 +22,8 @@ const update = {
     let nodes = tempRpgs.getNodes();
     let index = nodes.length - 1;
     let answerNode = nodes[index];
-    //console.log('addAnswer::answerNode',answerNode.getId());
+
     tempNode.addChild(answerNode.getId());
-    //console.log('tempNode',tempNode.getChildren());
     return {tempRpgs, tempNode};
   },
 

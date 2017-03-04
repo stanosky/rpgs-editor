@@ -17,7 +17,9 @@ const model = Object.assign({
   offsetX: 0,
   offsetY: 0,
   dragging: false,
-  loadingFile: false
+  loadingFile: false,
+  stageWidth: 0,
+  stageHeight: 0
 },
 dialogsModel);
 
