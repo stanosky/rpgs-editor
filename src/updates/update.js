@@ -41,20 +41,23 @@ const update = Object.assign({
   drop: model => ({ dragNode: null }),
 
   drag: (model, { dragNode, event }) => {
-    model.offsetX = event.offsetX;
-    model.offsetY = event.offsetY;
-    dragNode.x = event.pageX;
-    dragNode.y = event.pageY;
-    //console.log(dragNode.x,dragNode.y,model.offsetX,model.offsetY)
-    //dragNode.offsetX = event.offsetX;
-    //dragNode.offsetY = event.offsetY;
+    let id = dragNode.getId();
+    let len = model.currDialogNode.getChildren().length;
+    model.currDialogNode.setChildIndex(id,len-1);
+
+    model.offsetX = 300 + event.offsetX;
+    model.offsetY = 49 + event.offsetY;
+    dragNode.x = event.pageX - model.offsetX;
+    dragNode.y = event.pageY - model.offsetY;
+
+    //console.log(dragNode.x,dragNode.y,model.offsetX,model.offsetY);
     return {dragNode};
   },
 
   move: (model, { x, y }) => {
     if(model.dragNode !== null) {
-      model.dragNode.x = x - 300 - model.offsetX;
-      model.dragNode.y = y - 49 - model.offsetY;
+      model.dragNode.x = x - model.offsetX;
+      model.dragNode.y = y - model.offsetY;
     }
     return model;
   }

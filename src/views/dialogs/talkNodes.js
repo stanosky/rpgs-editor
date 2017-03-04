@@ -3,10 +3,17 @@
 import { h } from 'hyperapp';
 
 const view = (model, action) => {
-  let children = model.currDialogNode !== null ? model.currDialogNode.getChildren() : [];
+  let children = [];
+  let startTalk = '';
+  
+  if(model.currDialogNode !== null) {
+    children = model.currDialogNode.getChildren();
+    startTalk = model.currDialogNode.getStartTalk();
+  }
 
   return children.map(childId => {
     let node = model.rpgs.findNode(childId);
+    let nodeId = node.getId();
 
     return node !== null ? (
       <div
@@ -25,7 +32,16 @@ const view = (model, action) => {
             {node.getLabel()}
           </p>
           <a
-            data-id={node.getId()}
+            data-id={nodeId}
+            className="card-header-icon"
+            onclick={e => model.currDialogNode.setStartTalk(e.currentTarget['data-id'])}
+          >
+            <span className="icon">
+              <i className={"fa fa-star"+(startTalk === nodeId ? "" : "-o")}></i>
+            </span>
+          </a>
+          <a
+            data-id={nodeId}
             className="card-header-icon"
             onclick={e => action.showRemoveTalkModal(e.currentTarget['data-id'])}
           >
@@ -34,7 +50,7 @@ const view = (model, action) => {
             </span>
           </a>
           <a
-            data-id={node.getId()}
+            data-id={nodeId}
             className="card-header-icon"
             onclick={e => action.showEditTalkModal(e.currentTarget['data-id'])}
           >
