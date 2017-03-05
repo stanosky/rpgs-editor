@@ -5,14 +5,13 @@ import { h } from 'hyperapp';
 const view = (model, action) => {
   let children = [];
   let startTalk = '';
-  
+
   if(model.currDialogNode !== null) {
     children = model.currDialogNode.getChildren();
     startTalk = model.currDialogNode.getStartTalk();
   }
 
-  return children.map(childId => {
-    let node = model.rpgs.findNode(childId);
+  return children.map(node => {
     let nodeId = node.getId();
 
     return node !== null ? (
@@ -63,9 +62,7 @@ const view = (model, action) => {
           <div className="content">
             {node.getText()}
           </div>
-          {node.getChildren().map(answerId => {
-            //console.log('answerId',answerId);
-            let answerNode = model.rpgs.findNode(answerId);
+          {node.getChildren().map(answerNode => {
             return (<footer className="card-footer">{answerNode.getText()}</footer>);
           })}
         </div>

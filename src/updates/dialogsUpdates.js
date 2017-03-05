@@ -18,18 +18,13 @@ const update = {
   },
 
   addAnswer: ({tempRpgs, tempNode}) => {
-    tempRpgs.addNode('AnswerNode', {});
-    let nodes = tempRpgs.getNodes();
-    let index = nodes.length - 1;
-    let answerNode = nodes[index];
-
-    tempNode.addChild(answerNode.getId());
+    tempNode.addChild({class:'AnswerNode'});
     return {tempRpgs, tempNode};
   },
 
   removeAnswer: ({tempRpgs, tempNode}, id) => {
     let children = tempNode.getChildren();
-    let index = children.indexOf(id);
+    let index = Utils.getIndexById(children, id);
 
     tempNode.removeChild(index);
     return {tempRpgs, tempNode};
@@ -37,7 +32,7 @@ const update = {
 
   addTalk: ({rpgs, tempRpgs, tempNode, tempNodeData, currDialogNode}) => {
     mergeTempData(rpgs, tempRpgs, tempNode, tempNodeData);
-    currDialogNode.addChild(tempNode.getId());
+    currDialogNode.setNodeAsChild(tempNode);
     return {rpgs, tempRpgs, tempNode, tempNodeData, currDialogNode};
   },
 

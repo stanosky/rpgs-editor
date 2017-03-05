@@ -1,5 +1,6 @@
 'use strict';
 import {createTempNode,setupEditModal} from '../utils';
+import {Utils} from '../../../rpgs/rpgs/build/rpgs.min';
 import editDialog from '../views/modals/editDialog';
 import editTalk from '../views/modals/editTalk';
 import removeDialog from '../views/modals/removeDialog';
@@ -54,7 +55,7 @@ const effects = {
   commitRemoveTalkModal: (model, action) => {
     let id = model.tempNode.getId();
     let children = model.currDialogNode.getChildren();
-    let index = children.indexOf(id);
+    let index = Utils.getIndexById(children, id);
     model.currDialogNode.removeChild(index);
     action.hideModal();
   }

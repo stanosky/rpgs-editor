@@ -4,13 +4,13 @@ const getRandomLabel = (prefix, id) => prefix + id.substr(0,4);
 
 const getNodeDataList = (rpgs, node) => {
   return node !== null ? node.getChildren().reduce((prevVal, currVal) => {
-    let currNode = rpgs.findNode(currVal);
-    let children = currNode.getChildren();
+    //let currNode = rpgs.findNode(currVal);
+    let children = currVal.getChildren();
 
     if(children.length > 0) {
-      return prevVal.concat(getNodeDataList(rpgs, currNode));
+      return prevVal.concat(getNodeDataList(rpgs, currVal));
     } else {
-      return prevVal.concat(currNode.getData());
+      return prevVal.concat(currVal.getData());
     }
   },[node.getData()]) : [];
 };
@@ -22,7 +22,7 @@ const createTempNode = (model, action, type, id = '') => {
   } else {
     let nodeToEdit = model.rpgs.findNode(id);
     //console.log('getNodeDataList:',getNodeDataList(model.rpgs, nodeToEdit));
-    let data = JSON.parse(JSON.stringify(getNodeDataList(model.rpgs, nodeToEdit)));
+    let data = JSON.stringify(getNodeDataList(model.rpgs, nodeToEdit));
     model.tempNodeData = data;
     model.tempRpgs.mergeNodes(data);
   }
@@ -39,16 +39,10 @@ const setupEditModal = (model, action, view, labelPrefix) => {
 
 const mergeTempData = (rpgs, tempRpgs, tempNode, tempNodeData) => {
   let label = document.getElementById('nodeLabelInput').value;
-  let id = tempNode.getId();
-  let nodeToReplace = rpgs.findNode(id);
 
-  tempNodeData.forEach(n => {
-    //console.log('remove nodes',n.class,n.uuid);
-    rpgs.removeNode(n.uuid);
-  });
-
+  tempNodeData.forEach(n => rpgs.removeNode(n.uuid));
   tempNode.setLabel(label);
-  rpgs.mergeNodes(tempRpgs.getData());
+  rpgs.mergeNodes(tempRpgs.serialize());
 };
 
 module.exports = {

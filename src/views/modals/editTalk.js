@@ -5,8 +5,8 @@ import { h } from 'hyperapp';
 const answerItems = (model, action) => {
   let answers = model.tempNode.getChildren();
 
-  return answers.map(a => {
-    let answerNode = model.tempRpgs.findNode(a);
+  return answers.map(answerNode => {
+    //let answerNode = model.tempRpgs.findNode(a);
 
     return (
       <div className="columns">
@@ -21,7 +21,7 @@ const answerItems = (model, action) => {
         </div>
         <div className="column">
           <a
-            id={a}
+            id={answerNode.getId()}
             className="button"
             onclick={e => action.removeAnswer(e.currentTarget.id)}
           >
