@@ -16,6 +16,7 @@ const view = (model, action) => {
 
     return node !== null ? (
       <div
+        id={nodeId}
         className={"card talk-node " + (model.dragNode === node ? "drag-border" : "")}
         style={{
             left: node.x + "px",
@@ -26,7 +27,7 @@ const view = (model, action) => {
         <header className="card-header">
           <p
             className="card-header-title"
-            onMouseDown={e => action.drag({dragNode: node, event: e})}
+            onMouseDown={e => action.onDragHandler({dragNode: node, event: e})}
           >
             {node.getLabel()}
           </p>
@@ -63,7 +64,10 @@ const view = (model, action) => {
             {node.getText()}
           </div>
           {node.getChildren().map(answerNode => {
-            return (<footer className="card-footer">{answerNode.getText()}</footer>);
+            return (<footer
+                      id={answerNode.getId()}
+                      className="card-footer"
+                    >{answerNode.getText()}</footer>);
           })}
         </div>
       </div>

@@ -1,7 +1,6 @@
 'use strict';
-import {mergeTempData} from '../utils';
+import {mergeTempData} from '../common/utils';
 import {Utils} from '../../../rpgs/rpgs/build/rpgs.min';
-
 
 const update = {
   addDialog: ({rpgs, tempRpgs, tempNode, tempNodeData, currDialogNode}) => {
@@ -61,7 +60,7 @@ const update = {
 
   setTalkNode: ({currTalkNode}, node) => {
     return {currTalkNode: node};
-  },
+  }
 };
 
 export default update;

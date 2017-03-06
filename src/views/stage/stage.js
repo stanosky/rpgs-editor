@@ -2,6 +2,7 @@
 
 import { h } from 'hyperapp';
 import talkNodes from '../dialogs/talkNodes';
+import canvas from './canvas';
 
 const view = (model, action) => (
   <div
@@ -11,17 +12,19 @@ const view = (model, action) => (
       width:e.currentTarget.scrollWidth,
       height:e.currentTarget.scrollHeight
     })}
+    oncreate={action.initStage}
   >
     <div id="autoResizer" style={{
-      display: 'inline',
+      display: 'block',
       position: 'absolute',
       width: 1+'px',
       height: 1+'px',
-      top:model.stageHeight - 1 + 'px',
-      left:model.stageWidth - 1 + 'px',
+      top:model.stageScrollHeight - 1 + 'px',
+      left:model.stageScrollWidth - 1 + 'px',
     }}>
     </div>
     {talkNodes(model, action)}
+    {canvas(model, action)}
   </div>
 );
 

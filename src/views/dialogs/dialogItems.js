@@ -15,7 +15,7 @@ const view = (model, action) => (
         <li>
           <a
             id={id}
-            onclick={e => action.setDialogNode(model.rpgs.findNode(e.target.id))}
+            onclick={e => action.selectDialogNode(model.rpgs.findNode(e.target.id))}
             className={isActive(model, id) ? 'is-active' : ''}
           >{label}</a>
         </li>

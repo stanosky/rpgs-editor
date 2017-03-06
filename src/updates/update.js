@@ -40,7 +40,7 @@ const update = Object.assign({
 
   setStageSize: ({width,height}) => {
     console.log('setStageSize',width,height);
-    return {stageWidth:width,stageHeight:height};
+    return {stageScrollWidth:width,stageScrollHeight:height};
   },
 
   drop: model => ({ dragNode: null }),
@@ -65,12 +65,11 @@ const update = Object.assign({
     let scrollWidth = stage.scrollWidth;
     let scrollHeight = stage.scrollHeight;
 
-    if(model.dragNode !== null) {
-      model.dragNode.x = x - model.offsetX + stage.scrollLeft;
-      model.dragNode.y = y - model.offsetY + stage.scrollTop;
-      model.stageWidth = model.stageWidth > scrollWidth ? model.stageWidth : scrollWidth;
-      model.stageHeight = model.stageHeight > scrollHeight ? model.stageHeight : scrollHeight;
-    }
+    model.dragNode.x = x - model.offsetX + stage.scrollLeft;
+    model.dragNode.y = y - model.offsetY + stage.scrollTop;
+    model.stageScrollWidth = model.stageScrollWidth > scrollWidth ? model.stageScrollWidth : scrollWidth;
+    model.stageScrollHeight = model.stageScrollHeight > scrollHeight ? model.stageScrollHeight : scrollHeight;
+
     return model;
   }
 },

@@ -22,9 +22,9 @@ const createTempNode = (model, action, type, id = '') => {
   } else {
     let nodeToEdit = model.rpgs.findNode(id);
     //console.log('getNodeDataList:',getNodeDataList(model.rpgs, nodeToEdit));
-    let data = JSON.stringify(getNodeDataList(model.rpgs, nodeToEdit));
+    let data = getNodeDataList(model.rpgs, nodeToEdit);
     model.tempNodeData = data;
-    model.tempRpgs.mergeNodes(data);
+    model.tempRpgs.mergeNodes(JSON.stringify(data));
   }
   model.tempNode = model.tempRpgs.getNodes()[0];
 };

@@ -1,5 +1,5 @@
 'use strict';
-import {createTempNode,setupEditModal} from '../utils';
+import {createTempNode,setupEditModal} from '../common/utils';
 import {Utils} from '../../../rpgs/rpgs/build/rpgs.min';
 import editDialog from '../views/modals/editDialog';
 import editTalk from '../views/modals/editTalk';
@@ -7,6 +7,11 @@ import removeDialog from '../views/modals/removeDialog';
 import removeTalk from '../views/modals/removeTalk';
 
 const effects = {
+  selectDialogNode: (model, action, node) => {
+    action.setDialogNode(node);
+    action.updateStage();
+  },
+
   showEditDialogModal: (model, action, id = '') => {
     createTempNode(model, action, 'DialogNode', id);
     setupEditModal(model, action, editDialog, 'Dialog-');

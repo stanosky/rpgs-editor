@@ -62,3 +62,10 @@ body, html {
 .drag-border {
   border: 3px dashed hsl(171, 100%, 41%);
 }
+
+.stage-canvas {
+  position: absolute;
+  pointer-events: none;
+  top: 0;
+  left: 0;
+}
