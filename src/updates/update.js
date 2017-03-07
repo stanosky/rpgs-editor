@@ -54,8 +54,10 @@ const update = Object.assign({
 
     model.offsetX = 300 + event.offsetX;
     model.offsetY = 49 + event.offsetY;
-    dragNode.x = event.pageX - model.offsetX + stage.scrollLeft;
-    dragNode.y = event.pageY - model.offsetY + stage.scrollTop;
+    let nx = event.pageX - model.offsetX + stage.scrollLeft;
+    let ny = event.pageY - model.offsetY + stage.scrollTop;
+    dragNode.x = nx < 0 ? 0 : nx;
+    dragNode.y = ny < 0 ? 0 : ny;
     //console.log(dragNode.x,dragNode.y,model.offsetX,model.offsetY);
     return {dragNode};
   },
@@ -64,9 +66,10 @@ const update = Object.assign({
     let stage = document.getElementById('dialogsStage');
     let scrollWidth = stage.scrollWidth;
     let scrollHeight = stage.scrollHeight;
-
-    model.dragNode.x = x - model.offsetX + stage.scrollLeft;
-    model.dragNode.y = y - model.offsetY + stage.scrollTop;
+    let nx = x - model.offsetX + stage.scrollLeft;
+    let ny = y - model.offsetY + stage.scrollTop;
+    model.dragNode.x = nx < 0 ? 0 : nx;
+    model.dragNode.y = ny < 0 ? 0 : ny;
     model.stageScrollWidth = model.stageScrollWidth > scrollWidth ? model.stageScrollWidth : scrollWidth;
     model.stageScrollHeight = model.stageScrollHeight > scrollHeight ? model.stageScrollHeight : scrollHeight;
 

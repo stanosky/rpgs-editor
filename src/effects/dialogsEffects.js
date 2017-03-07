@@ -25,7 +25,7 @@ const effects = {
     let dialogs = model.rpgs.getNodes('DialogNode');
     let dialogNode = dialogs[dialogs.length-1];
 
-    action.setDialogNode(dialogNode);
+    action.selectDialogNode(dialogNode);
   },
 
   showRemoveDialogModal: (model, action) => {
@@ -35,7 +35,7 @@ const effects = {
 
   commitRemoveDialogModal: (model, action) => {
     let id = model.currDialogNode.getId();
-    action.setDialogNode(null);
+    action.selectDialogNode(null);
     model.rpgs.removeNode(id);
     action.hideModal();
   },
@@ -49,6 +49,7 @@ const effects = {
   commitEditTalkModal: (model, action) => {
     action.addTalk();
     action.hideModal();
+    action.updateStage();
   },
 
   showRemoveTalkModal: (model, action, id) => {
@@ -63,6 +64,7 @@ const effects = {
     let index = Utils.getIndexById(children, id);
     model.currDialogNode.removeChild(index);
     action.hideModal();
+    action.updateStage();
   }
 
 };

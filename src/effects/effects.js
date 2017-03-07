@@ -4,7 +4,7 @@ import {Utils} from '../../../rpgs/rpgs/build/rpgs.min';
 import FileSaver from 'file-saver';
 import dialogsEffects from './dialogsEffects';
 import loadFile from '../views/modals/loadFile';
-import {createWire,getDivBounds} from '../common/gfx';
+import {createWire,getDivBounds,mergeBounds} from '../common/gfx';
 
 const effects = Object.assign({
   initStage: (model, action) => {
@@ -37,21 +37,29 @@ const effects = Object.assign({
   updateWires: (model, action) => {
     model.canvas.removeAllChildren();
     if (model.currDialogNode) {
-      let tnb, anb, ttn, answerNodes, sx, sy, ex, ey, gotoId;//, gotoNode;
-      let talkNodes = model.currDialogNode.getChildren();
+      let talkNodeBounds, answerNodeBounds, targetNodeBounds,
+          answerNodes, sx, sy, ex, ey, gotoId, merged,
+          talkNodes = model.currDialogNode.getChildren();
+
       talkNodes.forEach(tn => {
-        tnb = getDivBounds(tn.getId());
+        talkNodeBounds = getDivBounds(tn.getId());
         answerNodes = tn.getChildren();
+
         answerNodes.forEach(an => {
-          gotoId = an.getTalk()
+          gotoId = an.getWires('goto')[0];
+
           if (gotoId !== undefined) {
-            ttn = getDivBounds(gotoId);
-            anb = getDivBounds(an.getId());
-            sx = tnb.x + tnb.w - model.stageOffsetLeft + model.stageScrollLeft;
-            sy = anb.y + (anb.h * .5) - model.stageOffsetTop + model.stageScrollTop;
-            ex = ttn.x - model.stageOffsetLeft + model.stageScrollLeft;
-            ey = ttn.y + (ttn.h * .5) - model.stageOffsetTop + model.stageScrollTop;
-            model.canvas.addChild(createWire(sx, sy, ex, ey));
+            targetNodeBounds = getDivBounds(gotoId);
+            answerNodeBounds = getDivBounds(an.getId());
+            if(targetNodeBounds && answerNodeBounds) {
+              sx = talkNodeBounds.right - model.stageOffsetLeft + model.stageScrollLeft;
+              sy = answerNodeBounds.top + (answerNodeBounds.height * .5) - model.stageOffsetTop + model.stageScrollTop;
+              ex = targetNodeBounds.left - model.stageOffsetLeft + model.stageScrollLeft;
+              ey = targetNodeBounds.top + (targetNodeBounds.height * .5) - model.stageOffsetTop + model.stageScrollTop;
+              merged = mergeBounds(talkNodeBounds, targetNodeBounds);
+              //console.log('merged',merged);
+              model.canvas.addChild(createWire(sx, sy, ex, ey, merged));
+            }
           }
         });
       });
@@ -90,6 +98,7 @@ const effects = Object.assign({
       action.setDialogNode(null);
       model.rpgs.setData(e.target.result);
       action.hideModal();
+      action.initStage();
     }
     action.setLoadingFile(true);
     fr.readAsText(files.item(0));
