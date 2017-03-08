@@ -35,27 +35,29 @@ const drawCricle = (g, x, y, size, color) => {
 }
 
 const drawWire = (g, sx, sy, ex, ey) => {
-  let color = "#000000";
+  let color = "#4A4A4A";
+  //g.clear();
   g.setStrokeStyle(1.5);
   g.beginStroke(color);
   drawCricle(g, sx, sy, 3, color);
-  //console.log('bounds',bounds);
-  //g.mt(sx, sy).lt(ex, ey);
   if(sx <= ex) {
     wireInside(g, sx, sy, ex, ey)
   } else {
     wireOutside(g, sx, sy, ex, ey)
   }
+  //g.mt(sx,sy).lt(ex,ey);
+  //drawTriangle(g, sx, sy, ex, ey, color);
+
   g.beginFill(color);
   g.drawPolyStar(ex, ey, 4, 3, 0, 0)
   g.endFill();
-  //drawTriangle(g, sx, sy, ex, ey, color)
+
   g.endStroke()
 }
 
-const createWire = (sx, sy, ex, ey, bounds) => {
+const createWire = (sx, sy, ex, ey) => {
   let wire = new createjs.Shape();
-  drawWire(wire.graphics, sx, sy, ex, ey, bounds)
+  drawWire(wire.graphics, sx, sy, ex, ey)
   return wire;
 };
 
@@ -77,6 +79,7 @@ const getDivBounds = (elementName) => {
 
 module.exports = {
   createWire,
+  drawWire,
   getDivBounds,
   mergeBounds
 };

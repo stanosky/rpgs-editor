@@ -13,21 +13,20 @@ const view = (model, action) => {
 
   return children.map(node => {
     let nodeId = node.getId();
+    let showDragBorder = model.dragNode === node || model.highlightId === nodeId;
 
     return node !== null ? (
       <div
-        id={nodeId}
-        className={"card talk-node " + (model.dragNode === node ? "drag-border" : "")}
+        className={"card talk-node is-unselectable " + (showDragBorder ? "drag-border" : "")}
         style={{
             left: node.x + "px",
-            top: node.y + "px",
-            'z-index': model.dragNode === node ? 1 : 0
+            top: node.y + "px"
         }}
       >
         <header className="card-header">
           <p
             className="card-header-title"
-            onMouseDown={e => action.onDragHandler({dragNode: node, event: e})}
+            onMouseDown={e => action.onDragHandler({node: node, event: e, wireType:''})}
           >
             {node.getLabel()}
           </p>
@@ -60,14 +59,23 @@ const view = (model, action) => {
           </a>
         </header>
         <div className="card-content">
-          <div className="content">
+          <div
+            id={nodeId}
+            className="content"
+          >
             {node.getText()}
           </div>
           {node.getChildren().map(answerNode => {
             return (<footer
                       id={answerNode.getId()}
                       className="card-footer"
-                    >{answerNode.getText()}</footer>);
+                    ><a
+                      href="#"
+                      onMouseDown={e => action.onDragHandler({event:e,
+                                    node:answerNode, wireType:'goto',
+                                    parentId:node.getId()})}
+                     >{answerNode.getText()}</a>
+                    </footer>);
           })}
         </div>
       </div>

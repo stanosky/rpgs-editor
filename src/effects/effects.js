@@ -4,7 +4,7 @@ import {Utils} from '../../../rpgs/rpgs/build/rpgs.min';
 import FileSaver from 'file-saver';
 import dialogsEffects from './dialogsEffects';
 import loadFile from '../views/modals/loadFile';
-import {createWire,getDivBounds,mergeBounds} from '../common/gfx';
+import {drawWire,getDivBounds,mergeBounds} from '../common/gfx';
 
 const effects = Object.assign({
   initStage: (model, action) => {
@@ -26,7 +26,12 @@ const effects = Object.assign({
     action.updateCanvas();
   },
   initCanvas: (model, action) => {
+    console.log('initCanvas')
     model.canvas = new createjs.Stage("stage-canvas");
+    model.drawWire = new createjs.Shape();
+    model.drawArea = new createjs.Shape();
+    model.canvas.addChild(model.drawArea);
+    model.canvas.addChild(model.drawWire);
     action.updateCanvas();
   },
   updateCanvas: (model, action) => {
@@ -35,7 +40,8 @@ const effects = Object.assign({
     model.canvas.update();
   },
   updateWires: (model, action) => {
-    model.canvas.removeAllChildren();
+    //model.canvas.removeAllChildren();
+    model.drawArea.graphics.clear();
     if (model.currDialogNode) {
       let talkNodeBounds, answerNodeBounds, targetNodeBounds,
           answerNodes, sx, sy, ex, ey, gotoId, merged,
@@ -52,13 +58,13 @@ const effects = Object.assign({
             targetNodeBounds = getDivBounds(gotoId);
             answerNodeBounds = getDivBounds(an.getId());
             if(targetNodeBounds && answerNodeBounds) {
-              sx = talkNodeBounds.right - model.stageOffsetLeft + model.stageScrollLeft;
+              //sx = talkNodeBounds.right - model.stageOffsetLeft + model.stageScrollLeft;
+              sx = answerNodeBounds.right - model.stageOffsetLeft + model.stageScrollLeft;
               sy = answerNodeBounds.top + (answerNodeBounds.height * .5) - model.stageOffsetTop + model.stageScrollTop;
-              ex = targetNodeBounds.left - model.stageOffsetLeft + model.stageScrollLeft;
+              ex = targetNodeBounds.left - model.stageOffsetLeft + model.stageScrollLeft - 6;
               ey = targetNodeBounds.top + (targetNodeBounds.height * .5) - model.stageOffsetTop + model.stageScrollTop;
-              merged = mergeBounds(talkNodeBounds, targetNodeBounds);
-              //console.log('merged',merged);
-              model.canvas.addChild(createWire(sx, sy, ex, ey, merged));
+
+              model.canvas.addChild(drawWire(model.drawArea.graphics, sx, sy, ex, ey));
             }
           }
         });
@@ -66,17 +72,29 @@ const effects = Object.assign({
     }
   },
   onDragHandler: (model, action, params) => {
-    action.drag(params);
+    if(params.wireType !== '') {
+      action.dragWire(params);
+    } else {
+      action.dragNode(params);
+    }
     action.updateStage();
   },
   onDropHandler: (model, action) => {
-    action.drop();
+    if(model.isWireDrawing) {
+      action.dropWire();
+    } else {
+      action.dropNode();
+    }
     action.updateStage();
   },
   onMoveHandler: (model, action, params) => {
     if(model.dragNode !== null) {
-      action.move(params);
-      action.updateStage();
+      if(model.isWireDrawing) {
+        action.moveWire(params);
+      } else {
+        action.moveNode(params);
+      }
+      action.updateStage();      
     }
   },
   saveFile: (model, action) => {

@@ -1,6 +1,21 @@
 'use strict';
 
 import dialogsUpdates from './dialogsUpdates';
+import {drawWire,getDivBounds} from '../common/gfx';
+
+const updateNodePosition = (model, x, y) => {
+  let stage = document.getElementById('dialogsStage');
+  let scrollWidth = stage.scrollWidth;
+  let scrollHeight = stage.scrollHeight;
+  let nx = x - model.offsetX + stage.scrollLeft;
+  let ny = y - model.offsetY + stage.scrollTop;
+  model.dragNode.x = nx < 0 ? 0 : nx;
+  model.dragNode.y = ny < 0 ? 0 : ny;
+  model.stageScrollWidth = model.stageScrollWidth > scrollWidth
+                          ? model.stageScrollWidth : scrollWidth;
+  model.stageScrollHeight = model.stageScrollHeight > scrollHeight
+                          ? model.stageScrollHeight : scrollHeight;
+};
 
 const update = Object.assign({
   switchTab: ({ selectedTab }, e) => {
@@ -43,38 +58,78 @@ const update = Object.assign({
     return {stageScrollWidth:width,stageScrollHeight:height};
   },
 
-  drop: model => ({ dragNode: null }),
+  dropNode: model => ({ dragNode: null }),
 
-  drag: (model, { dragNode, event }) => {
-    let id = dragNode.getId();
+  dragNode: (model, { node, event }) => {
+    event.preventDefault();
+    let id = node.getId();
     let len = model.currDialogNode.getChildren().length;
-    let stage = document.getElementById('dialogsStage');
 
     model.currDialogNode.setChildIndex(id,len-1);
-
-    model.offsetX = 300 + event.offsetX;
-    model.offsetY = 49 + event.offsetY;
-    let nx = event.pageX - model.offsetX + stage.scrollLeft;
-    let ny = event.pageY - model.offsetY + stage.scrollTop;
-    dragNode.x = nx < 0 ? 0 : nx;
-    dragNode.y = ny < 0 ? 0 : ny;
-    //console.log(dragNode.x,dragNode.y,model.offsetX,model.offsetY);
-    return {dragNode};
+    model.offsetX = model.stageOffsetLeft + event.offsetX;
+    model.offsetY = model.stageOffsetTop + event.offsetY;
+    model.dragNode = node;
+    updateNodePosition(model,event.pageX,event.pageY);
+    return model;
   },
 
-  move: (model, { x, y }) => {
-    let stage = document.getElementById('dialogsStage');
-    let scrollWidth = stage.scrollWidth;
-    let scrollHeight = stage.scrollHeight;
-    let nx = x - model.offsetX + stage.scrollLeft;
-    let ny = y - model.offsetY + stage.scrollTop;
-    model.dragNode.x = nx < 0 ? 0 : nx;
-    model.dragNode.y = ny < 0 ? 0 : ny;
-    model.stageScrollWidth = model.stageScrollWidth > scrollWidth ? model.stageScrollWidth : scrollWidth;
-    model.stageScrollHeight = model.stageScrollHeight > scrollHeight ? model.stageScrollHeight : scrollHeight;
-
+  moveNode: (model, { x, y }) => {
+    updateNodePosition(model,x,y);
     return model;
-  }
+  },
+
+  dropWire: model => {
+    if(model.highlightId !== '') {
+      //model.dragNode.addWire(model.tempWire.type, model.highlightId);
+      model.rpgs.setConnection(model.tempWire.type,model.dragNode.getId(),model.highlightId);
+    } /*else {
+      model.dragNode.addWire(model.tempWire.type, model.tempWire.id);
+    }*/
+    model.highlightId = '';
+    model.isWireDrawing = false;
+    model.drawWire.graphics.clear();
+    return { dragNode: null, tempWire: null };
+  },
+
+  dragWire: (model, { node, event, parentId, wireType }) => {
+    event.preventDefault();
+    //let wire = new createjs.Shape();
+    //model.drawWire = wire;
+    let tempId = node.getWires(wireType)[0] || null;
+    model.tempWire = {type:wireType, id: tempId};
+    if(tempId !== null) node.removeWire(wireType,tempId);
+
+    model.isWireDrawing = true;
+    model.dragNode = node;
+    let parentNodeBounds = getDivBounds(parentId);
+    let childNodeBounds = getDivBounds(node.getId());
+    model.offsetX = model.stageOffsetLeft;
+    model.offsetY = model.stageOffsetTop;
+    model.wireX = parentNodeBounds.right - model.stageOffsetLeft + model.stageScrollLeft;
+    model.wireY = childNodeBounds.top + (childNodeBounds.height * .5) - model.stageOffsetTop + model.stageScrollTop;
+    //console.log(dragNode.getLabel());
+    //model.canvas.addChild(wire);
+    return model;
+  },
+
+  moveWire: (model, { x, y }) => {
+    let stage = document.getElementById('dialogsStage');
+    let nx = x - model.offsetX + stage.scrollLeft - 6;
+    let ny = y - model.offsetY + stage.scrollTop;
+
+    model.highlightId = '';
+    model.currDialogNode.getChildren().forEach(child => {
+      let id = child.getId();
+      let b = getDivBounds(id);
+      if(x >= b.left && x <= b.right && y >= b.top && y <= b.bottom) {
+        model.highlightId = id;
+      }
+    });
+    model.drawWire.graphics.clear();
+    drawWire(model.drawWire.graphics, model.wireX, model.wireY, nx, ny);
+    model.canvas.update();
+    return model;
+  },
 },
 dialogsUpdates);
 

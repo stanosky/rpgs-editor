@@ -40,7 +40,7 @@ const setupEditModal = (model, action, view, labelPrefix) => {
 const mergeTempData = (rpgs, tempRpgs, tempNode, tempNodeData) => {
   let label = document.getElementById('nodeLabelInput').value;
 
-  tempNodeData.forEach(n => rpgs.removeNode(n.uuid));
+  tempNodeData.forEach(n => rpgs.removeNode(n.uuid, false));
   tempNode.setLabel(label);
   rpgs.mergeNodes(tempRpgs.serialize());
 };

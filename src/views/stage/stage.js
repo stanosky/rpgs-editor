@@ -23,8 +23,8 @@ const view = (model, action) => (
       left:model.stageScrollWidth - 1 + 'px',
     }}>
     </div>
-    {canvas(model, action)}    
     {talkNodes(model, action)}
+    {canvas(model, action)}    
   </div>
 );
 
