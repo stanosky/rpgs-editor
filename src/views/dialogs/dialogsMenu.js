@@ -59,6 +59,7 @@ const view = (model, action) => (
       <p class="control">
         <a
           className={'button ' + (model.currDialogNode === null ? 'is-disabled' : '')}
+          onclick={action.onZoomIn}
         >
           <span class="icon is-small">
             <i class="fa fa-search-plus"></i>
@@ -66,6 +67,7 @@ const view = (model, action) => (
         </a>
         <a
           className={'button ' + (model.currDialogNode === null ? 'is-disabled' : '')}
+          onclick={action.onZoomOut}
         >
           <span class="icon is-small">
             <i class="fa fa-search-minus"></i>

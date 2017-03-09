@@ -4,105 +4,125 @@ import {Utils} from '../../../rpgs/rpgs/build/rpgs.min';
 import FileSaver from 'file-saver';
 import dialogsEffects from './dialogsEffects';
 import loadFile from '../views/modals/loadFile';
-import {drawWire,getDivBounds,mergeBounds} from '../common/gfx';
+import {drawWire,getDivBounds} from '../common/gfx';
 
 const effects = Object.assign({
-  initStage: (model, action) => {
-    //console.log('initStage');
-    action.updateStage();
-  },
   updateStage: (model, action) => {
+    //console.log('updateStage');
     let stage = document.getElementById('dialogsStage');
-    let rect = stage.getBoundingClientRect();
-    model.stageWidth = rect.width;
-    model.stageHeight = rect.height;
-    model.stageScrollWidth = stage.scrollWidth;
-    model.stageScrollHeight = stage.scrollHeight;
-    model.stageScrollTop = stage.scrollTop;
-    model.stageScrollLeft = stage.scrollLeft;
-    //console.log('stageSize:',model.stageWidth,model.stageHeight);
-    //console.log('scrollSize:',model.stageScrollWidth,model.stageScrollHeight);
-    //console.log('scrollPosition',model.stageScrollTop,model.stageScrollLeft);
-    action.updateCanvas();
-  },
-  initCanvas: (model, action) => {
-    console.log('initCanvas')
-    model.canvas = new createjs.Stage("stage-canvas");
-    model.drawWire = new createjs.Shape();
-    model.drawArea = new createjs.Shape();
-    model.canvas.addChild(model.drawArea);
-    model.canvas.addChild(model.drawWire);
-    action.updateCanvas();
-  },
-  updateCanvas: (model, action) => {
-    if(model.canvas === null) return;
+
+    action.setStage(stage);
     action.updateWires();
-    model.canvas.update();
   },
+
+  initCanvas: (model, action) => {
+    //console.log('initCanvas')
+    let canvas = new createjs.Stage("stage-canvas");
+    let tempDrawArea = new createjs.Shape();
+    let wiresDrawArea = new createjs.Shape();
+
+    canvas.addChild(wiresDrawArea);
+    canvas.addChild(tempDrawArea);
+    action.setCanvas({c:canvas,tda:tempDrawArea,wda:wiresDrawArea});
+    action.updateWires();
+  },
+
   updateWires: (model, action) => {
-    //model.canvas.removeAllChildren();
-    model.drawArea.graphics.clear();
+    if (model.canvas === null) return;
+
+    model.wiresDrawArea.graphics.clear();
     if (model.currDialogNode) {
-      let talkNodeBounds, answerNodeBounds, targetNodeBounds,
-          answerNodes, sx, sy, ex, ey, gotoId, merged,
-          talkNodes = model.currDialogNode.getChildren();
-
-      talkNodes.forEach(tn => {
-        talkNodeBounds = getDivBounds(tn.getId());
-        answerNodes = tn.getChildren();
-
-        answerNodes.forEach(an => {
-          gotoId = an.getWires('goto')[0];
+      model.currDialogNode.getChildren().forEach(childNode => {
+        childNode.getChildren().forEach(subChildNode => {
+          let sourceBounds, targetBounds, sx, sy, ex, ey,
+              ox = model.stageX - model.currStage.scrollLeft,
+              oy = model.stageY - model.currStage.scrollTop,
+              gotoId = subChildNode.getWires('goto')[0];
 
           if (gotoId !== undefined) {
-            targetNodeBounds = getDivBounds(gotoId);
-            answerNodeBounds = getDivBounds(an.getId());
-            if(targetNodeBounds && answerNodeBounds) {
-              //sx = talkNodeBounds.right - model.stageOffsetLeft + model.stageScrollLeft;
-              sx = answerNodeBounds.right - model.stageOffsetLeft + model.stageScrollLeft;
-              sy = answerNodeBounds.top + (answerNodeBounds.height * .5) - model.stageOffsetTop + model.stageScrollTop;
-              ex = targetNodeBounds.left - model.stageOffsetLeft + model.stageScrollLeft - 6;
-              ey = targetNodeBounds.top + (targetNodeBounds.height * .5) - model.stageOffsetTop + model.stageScrollTop;
+            targetBounds = getDivBounds(gotoId);
+            sourceBounds = getDivBounds(subChildNode.getId());
+            if (targetBounds && sourceBounds) {
+              sx = (sourceBounds.right - ox) / model.currZoom;
+              sy = (sourceBounds.top - oy + (sourceBounds.height * .5)) / model.currZoom;
+              ex = (targetBounds.left - ox - 6) / model.currZoom;
+              ey = (targetBounds.top - oy + (targetBounds.height * .5)) / model.currZoom;
 
-              model.canvas.addChild(drawWire(model.drawArea.graphics, sx, sy, ex, ey));
+              drawWire(model.wiresDrawArea.graphics, sx, sy, ex, ey);
             }
           }
         });
       });
     }
+    model.canvas.update();
   },
-  onDragHandler: (model, action, params) => {
-    if(params.wireType !== '') {
-      action.dragWire(params);
+
+  onDragHandler: (model, action, { node, event, parentId, wireType }) => {
+    event.preventDefault();
+
+    if(wireType !== '') {
+      let tempId = node.getWires(wireType)[0] || null;
+      let bounds = getDivBounds(node.getId());
+      let x = bounds.right - model.stageX + model.currStage.scrollLeft;
+      let y = bounds.top + (bounds.height * .5) - model.stageY + model.currStage.scrollTop;
+
+      if(tempId !== null) node.removeWire(wireType,tempId);
+      action.setTempWire({type:wireType, id: tempId});
+      action.setDragNode(node);
+      action.setWirePosition({x,y});
     } else {
-      action.dragNode(params);
+      let id = node.getId();
+      let len = model.currDialogNode.getChildren().length;
+
+      model.currDialogNode.setChildIndex(id,len-1);
+      action.setDragOffset({x:event.offsetX,y:event.offsetY});
+      action.setDragNode(node);
     }
     action.updateStage();
   },
+
   onDropHandler: (model, action) => {
     if(model.isWireDrawing) {
       action.dropWire();
     } else {
-      action.dropNode();
+      action.setDragNode(null);
     }
     action.updateStage();
   },
-  onMoveHandler: (model, action, params) => {
+
+  onMoveHandler: (model, action, { x, y }) => {
     if(model.dragNode !== null) {
       if(model.isWireDrawing) {
-        action.moveWire(params);
+        let sx = model.wireX / model.currZoom;
+        let sy = model.wireY / model.currZoom;
+        let ex = (x - model.stageX + model.currStage.scrollLeft - 6) / model.currZoom;
+        let ey = (y - model.stageY + model.currStage.scrollTop) / model.currZoom;
+
+        action.setHighlight('');
+        model.currDialogNode.getChildren().forEach(child => {
+          let id = child.getId();
+          let b = getDivBounds(id);
+          if(x >= b.left && x <= b.right && y >= b.top && y <= b.bottom) {
+            action.setHighlight(id);
+          }
+        });
+        model.tempDrawArea.graphics.clear();
+        drawWire(model.tempDrawArea.graphics, sx, sy, ex, ey);
+        model.canvas.update();
       } else {
-        action.moveNode(params);
+        action.setNodePosition({x,y});
       }
-      action.updateStage();      
+      action.updateStage();
     }
   },
+
   saveFile: (model, action) => {
     let data = model.rpgs.serialize();
     let filename = 'rpgs-data';
     let blob = new Blob([data], {type: "text/plain;charset=utf-8"});
     FileSaver.saveAs(blob, filename+".json");
   },
+
   loadFile: (model, action) => {
     let files = document.getElementById('selectFiles').files;
     //console.log(files);
@@ -121,9 +141,20 @@ const effects = Object.assign({
     action.setLoadingFile(true);
     fr.readAsText(files.item(0));
   },
+
   showLoadFileModal: (model, action) => {
     action.setModal(loadFile);
     action.showModal();
+  },
+
+  onZoomIn: (model, action) => {
+    action.zoomIn();
+    action.updateStage();
+  },
+
+  onZoomOut: (model, action) => {
+    action.zoomOut();
+    action.updateStage();
   }
 },
 dialogsEffects);

@@ -58,8 +58,9 @@ const update = {
     return {currDialogNode: node};
   },
 
-  setTalkNode: ({currTalkNode}, node) => {
-    return {currTalkNode: node};
+  setStartTalk: ({currDialogNode}, id) => {
+    currDialogNode.setStartTalk(id);
+    return {currDialogNode};
   }
 };
 

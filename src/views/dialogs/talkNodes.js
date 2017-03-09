@@ -33,7 +33,7 @@ const view = (model, action) => {
           <a
             data-id={nodeId}
             className="card-header-icon"
-            onclick={e => model.currDialogNode.setStartTalk(e.currentTarget['data-id'])}
+            onclick={e => action.setStartTalk(e.currentTarget['data-id'])}
           >
             <span className="icon">
               <i className={"fa fa-star"+(startTalk === nodeId ? "" : "-o")}></i>
