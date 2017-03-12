@@ -11,7 +11,7 @@ const view = (model, action) => {
   <div
     id="dialogsStage"
     className="editor-stage"
-    oncreate={action.updateStage}
+    onCreate={action.updateStage}
   >
     <div
       className="blueprint"

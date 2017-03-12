@@ -9,7 +9,7 @@ const view = (model, action) => (
     {
       model.tabs.map((tab,index) =>
         <a
-          id={tab} onclick={action.switchTab}
+          id={tab} onclick={e => action.switchTab(e)}
           className={"nav-item is-tab " + (model.selectedTab === tab ? "is-active" : "")}
         >
           <span className="icon is-small"><i class={'fa ' + icon[index]}></i></span>

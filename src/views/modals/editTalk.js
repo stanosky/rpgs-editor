@@ -40,7 +40,7 @@ const view = (model, action) => {
 
   return (
     <div className="modal-card"
-      oncreate={action.clearLabelCheck}
+      onCreate={action.clearLabelCheck}
     >
         <header className="modal-card-head">
           <p className="modal-card-title">Edit talk</p>

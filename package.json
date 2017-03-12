@@ -12,7 +12,7 @@
   "license": "MIT",
   "dependencies": {
     "file-saver": "^1.3.3",
-    "hyperapp": "0.4.0",
+    "hyperapp": "0.7.1",
     "jsonfile": "^2.4.0",
     "svg.js": "^2.4.0"
   },
@@ -28,6 +28,7 @@
     "eslint-config-airbnb-base": "^11.0.1",
     "eslint-plugin-import": "^2.2.0",
     "extract-text-webpack-plugin": "^2.0.0-rc.3",
+    "hyperapp": "^0.7.1",
     "imports": "^1.0.0",
     "node-libs-browser": "^2.0.0",
     "webpack": "^2.2.1",

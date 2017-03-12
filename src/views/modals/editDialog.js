@@ -4,7 +4,7 @@ import { h } from 'hyperapp';
 
 const view = (model, action) => (
     <div className="modal-card"
-      oncreate={action.clearLabelCheck}
+      onCreate={action.clearLabelCheck}
     >
       <header className="modal-card-head">
         <p className="modal-card-title">Create new dialog</p>
