@@ -3,7 +3,8 @@
 const model = {
   currDialogNode: null,
   currTalkNode: null,
-  currAnswerNode: null
+  currAnswerNode: null,
+  labelFiler:''
 };
 
 export default model;

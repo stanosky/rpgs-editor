@@ -118,6 +118,11 @@ const actions = {
     return {rpgs,tempNode,currDialogNode,labelAlreadyExist};
   },
 
+  filterDialogs: ({labelFiler}, value) => {
+    console.log('filterDialogs:',value);
+    return {labelFiler:value};
+  },
+
   setDialogNode: ({currDialogNode}, node) => {
     return {currDialogNode: node};
   },

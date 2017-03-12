@@ -6,13 +6,19 @@ const isActive = (model, id) => {
   return model.currDialogNode !== null && model.currDialogNode.getId() === id;
 };
 
+const isVisible = (model, label) => {
+  return model.labelFiler === '' || label.indexOf(model.labelFiler) > -1;
+};
+
 const view = (model, action) => (
     model.rpgs.getNodes('DialogNode').map(d => {
       let id = d.getId();
       let label = d.getLabel();
       //console.log('dialogItems');
       return (
-        <li>
+        <li
+          className={isVisible(model, label) ? '' : 'is-hidden'}
+        >
           <a
             id={id}
             onclick={e => action.selectDialogNode(model.rpgs.findNode(e.target.id))}

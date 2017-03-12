@@ -36,7 +36,12 @@ const view = (model, action) => (
       </div>
       <div className="panel-block">
         <p className="control has-icon">
-          <input className="input is-small" type="text" placeholder="Search"></input>
+          <input
+            className="input is-small"
+            type="text"
+            placeholder="Search"
+            oninput={e => action.filterDialogs(e.currentTarget.value)}
+          ></input>
           <span className="icon is-small">
             <i className="fa fa-search"></i>
           </span>

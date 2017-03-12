@@ -84,6 +84,7 @@ const actions = Object.assign({
       action.setTempWire({type:wireType, id: tempId});
       action.setDragNode(node);
       action.setWirePosition({x,y});
+      action.drawTempWire({ x: event.pageX, y: event.pageY});
     } else {
       let id = node.getId();
       let len = model.currDialogNode.getChildren().length;
@@ -104,27 +105,31 @@ const actions = Object.assign({
     action.updateStage();
   },
 
-  onMoveHandler: (model, { x, y }, action) => {
+  drawTempWire: (model, {x, y}, action) => {
+    let sx = model.wireX / model.currZoom;
+    let sy = model.wireY / model.currZoom;
+    let ex = (x - model.stageX + model.currStage.scrollLeft - 6) / model.currZoom;
+    let ey = (y - model.stageY + model.currStage.scrollTop) / model.currZoom;
+
+    action.setHighlight('');
+    model.currDialogNode.getChildren().forEach(child => {
+      let id = child.getId();
+      let b = getDivBounds(id);
+      if(x >= b.left && x <= b.right && y >= b.top && y <= b.bottom) {
+        action.setHighlight(id);
+      }
+    });
+    model.tempDrawArea.graphics.clear();
+    drawWire(model.tempDrawArea.graphics, sx, sy, ex, ey);
+    model.canvas.update();
+  },
+
+  onMoveHandler: (model, data, action) => {
     if(model.dragNode !== null) {
       if(model.isWireDrawing) {
-        let sx = model.wireX / model.currZoom;
-        let sy = model.wireY / model.currZoom;
-        let ex = (x - model.stageX + model.currStage.scrollLeft - 6) / model.currZoom;
-        let ey = (y - model.stageY + model.currStage.scrollTop) / model.currZoom;
-
-        action.setHighlight('');
-        model.currDialogNode.getChildren().forEach(child => {
-          let id = child.getId();
-          let b = getDivBounds(id);
-          if(x >= b.left && x <= b.right && y >= b.top && y <= b.bottom) {
-            action.setHighlight(id);
-          }
-        });
-        model.tempDrawArea.graphics.clear();
-        drawWire(model.tempDrawArea.graphics, sx, sy, ex, ey);
-        model.canvas.update();
+        action.drawTempWire(data);
       } else {
-        action.setNodePosition({x,y});
+        action.setNodePosition(data);
       }
       action.updateStage();
     }
