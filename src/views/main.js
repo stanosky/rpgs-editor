@@ -12,9 +12,9 @@ import quests from './quests/quests';
 
 const view = (model, action) => {
   return(
-  <div>
-    <nav class="nav has-shadow">
-      <div class="container">
+  <div className={model.stageDragging ? 'move' : ''}>
+    <nav className="nav has-shadow">
+      <div className="container">
         {navTabs(model, action)}
         {navFile(model, action)}
       </div>

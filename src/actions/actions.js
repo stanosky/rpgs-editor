@@ -18,14 +18,20 @@ const actions = Object.assign({
       action.setTab(clickedTab);
       //console.log('action.router',action.router);
       //action.router.go("/"+clickedTab);
+      action.updateStage();
     }
   },
 
-  updateStage: (model, data, action) => {
-    //console.log('updateStage');
+  initStage: (model, data, action) => {
+    console.log('initStage');
     let stage = document.getElementById('dialogsStage');
 
     action.setStage(stage);
+  },
+
+
+  updateStage: (model, data, action) => {
+    //console.log('updateStage');
     action.updateWires();
   },
 
@@ -71,41 +77,110 @@ const actions = Object.assign({
     model.canvas.update();
   },
 
-  onDragHandler: (model, { node, event, parentId, wireType }, action) => {
-    event.preventDefault();
-
-    if(wireType !== '') {
-      let tempId = node.getWires(wireType)[0] || null;
-      let bounds = getDivBounds(node.getId());
-      let x = bounds.right - model.stageX + model.currStage.scrollLeft;
-      let y = bounds.top + (bounds.height * .5) - model.stageY + model.currStage.scrollTop;
-
-      if(tempId !== null) node.removeWire(wireType,tempId);
-      action.setTempWire({type:wireType, id: tempId});
-      action.setDragNode(node);
-      action.setWirePosition({x,y});
-      action.drawTempWire({ x: event.pageX, y: event.pageY});
-    } else {
-      let id = node.getId();
-      let len = model.currDialogNode.getChildren().length;
-
-      model.currDialogNode.setChildIndex(id,len-1);
-      action.setDragOffset({x:event.offsetX,y:event.offsetY});
-      action.setDragNode(node);
+  onKeyDown: (model, event, action) => {
+    console.log('onKeyDown',event);
+    if(event.keyCode === 32 && event.target == document.body) {
+      event.preventDefault();
+      action.setDragStage(true);
     }
-    action.updateStage();
+    if(event.ctrlKey && event.keyCode === 187) {
+      event.preventDefault();
+      action.onZoomIn();
+    }
+    if(event.ctrlKey && event.keyCode === 189) {
+      event.preventDefault();
+      action.onZoomOut();
+    }
+  },
+
+  onKeyUp: (model, event, action) => {
+    //console.log('onKeyUp:', event.code);
+    if(event.keyCode === 32) {
+      action.setDragStage(false);
+    }
+  },
+
+  dragWire: (model, {node, event, wireType}, action) => {
+    //console.log('dragWire');
+    let tempId = node.getWires(wireType)[0] || null;
+    let bounds = getDivBounds(node.getId());
+    let x = bounds.right - model.stageX + model.currStage.scrollLeft;
+    let y = bounds.top + (bounds.height * .5) - model.stageY + model.currStage.scrollTop;
+
+    if(tempId !== null) node.removeWire(wireType,tempId);
+    action.setTempWire({type:wireType, id: tempId});
+    action.setDragNode(node);
+    action.setWirePosition({x,y});
+    action.moveWire({ x: event.pageX, y: event.pageY});
+  },
+
+  dragNode: (model, {node, event}, action) => {
+    let id = node.getId();
+    let len = model.currDialogNode.getChildren().length;
+
+    model.currDialogNode.setChildIndex(id,len-1);
+    action.setDragOffset({x:event.offsetX, y:event.offsetY});
+    action.setDragNode(node);
+  },
+
+  dragStage: (model, {event}, action) => {
+    //console.log('drag stage');
+    action.setDragOffset({x:event.offsetX, y:event.offsetY});
+  },
+
+  onDragHandler: (model, { node, event, wireType, dragType }, action) => {
+    event.preventDefault();
+    event.stopPropagation();
+    //console.log('onDragHandler',dragType)
+    action.setDragType(dragType);
+    if (dragType === 'wire') {
+      action.dragWire({node, event, wireType});
+      action.updateStage();
+    } else if (dragType === 'node') {
+      action.dragNode({node, event});
+      action.updateStage();
+    } else if (dragType === 'stage' && model.stageDragging) {
+      action.dragStage({event});
+    }
+
+  },
+
+  dropWire: (model, data, action) => {
+    if(model.highlightId !== '') {
+      model.rpgs.setConnection(model.tempWire.type,model.dragNode.getId(),model.highlightId);
+    }
+
+    action.setHighlight('');
+    action.setDragType('');
+    model.tempDrawArea.graphics.clear();
+    return { dragNode: null, tempWire: null };
+  },
+
+  dropNode: (model, data, action) => {
+    action.setDragNode(null);
+    action.setDragType('');
+  },
+
+  dropStage: (model, data, action) => {
+    action.setDragType('');
   },
 
   onDropHandler: (model, data, action) => {
-    if(model.isWireDrawing) {
+    event.stopPropagation();
+    //console.log('onDropHandler',model.dragType);
+    if(model.dragType === 'wire') {
       action.dropWire();
-    } else {
-      action.setDragNode(null);
+    } else if(model.dragType === 'node'){
+      action.dropNode();
+    } else if(model.dragType === 'stage' && model.stageDragging) {
+      action.dropStage();
     }
+
     action.updateStage();
   },
 
-  drawTempWire: (model, {x, y}, action) => {
+  moveWire: (model, {x, y}, action) => {
+    //console.log('moveWire');
     let sx = model.wireX / model.currZoom;
     let sy = model.wireY / model.currZoom;
     let ex = (x - model.stageX + model.currStage.scrollLeft - 6) / model.currZoom;
@@ -124,15 +199,33 @@ const actions = Object.assign({
     model.canvas.update();
   },
 
+  moveNode: (model, {x, y}) => {
+    let nx = (x + model.currStage.scrollLeft - model.stageX) / model.currZoom - model.offsetX;
+    let ny = (y + model.currStage.scrollTop - model.stageY) / model.currZoom - model.offsetY;
+    model.dragNode.x = nx < 0 ? 0 : nx;
+    model.dragNode.y = ny < 0 ? 0 : ny;
+    return model;
+  },
+
+  moveStage: (model, {x,y}, action) => {
+    model.currStage.scrollLeft = -x + model.stageX + (model.offsetX) * model.currZoom;
+    model.currStage.scrollTop = -y + model.stageY + (model.offsetY) * model.currZoom ;
+  },
+
   onMoveHandler: (model, data, action) => {
-    if(model.dragNode !== null) {
-      if(model.isWireDrawing) {
-        action.drawTempWire(data);
-      } else {
-        action.setNodePosition(data);
+    //console.log('onMoveHandler',model.dragType);
+    //event.stopPropagation();
+    //if(model.dragNode !== null) {
+      if(model.dragType === 'wire') {
+        action.moveWire(data);
+      } else if (model.dragType === 'node') {
+        action.moveNode(data);
+        action.updateStage();
+      } else if (model.dragType === 'stage' && model.stageDragging) {
+        action.moveStage(data);
       }
-      action.updateStage();
-    }
+
+    //}
   },
 
   saveFile: (model, data, action) => {
@@ -219,26 +312,16 @@ const actions = Object.assign({
     return {offsetX:x,offsetY:y};
   },
 
-  setNodePosition: (model, {x, y}) => {
-    let nx = (x + model.currStage.scrollLeft - model.stageX) / model.currZoom - model.offsetX;
-    let ny = (y + model.currStage.scrollTop - model.stageY) / model.currZoom - model.offsetY;
-    model.dragNode.x = nx < 0 ? 0 : nx;
-    model.dragNode.y = ny < 0 ? 0 : ny;
-    return model;
+  setDragType: ({dragType}, type) => {
+    return {dragType:type};
   },
 
-  dropWire: model => {
-    if(model.highlightId !== '') {
-      model.rpgs.setConnection(model.tempWire.type,model.dragNode.getId(),model.highlightId);
-    }
-    model.highlightId = '';
-    model.isWireDrawing = false;
-    model.tempDrawArea.graphics.clear();
-    return { dragNode: null, tempWire: null };
+  setDragStage: ({stageDragging}, value) => {
+    return {stageDragging: value};
   },
 
-  setTempWire: ({tempWire,isWireDrawing},params) => {
-    return {tempWire:params,isWireDrawing:true};
+  setTempWire: ({tempWire},params) => {
+    return {tempWire:params};
   },
 
   setWirePosition: ({wireX,wireY},{x,y}) => {

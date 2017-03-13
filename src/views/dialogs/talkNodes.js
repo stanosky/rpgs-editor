@@ -26,7 +26,12 @@ const view = (model, action) => {
         <header className="card-header">
           <p
             className="card-header-title"
-            onMouseDown={e => action.onDragHandler({node: node, event: e, wireType:''})}
+            onMouseDown={e => action.onDragHandler({
+              node: node,
+              event: e,
+              dragType:'node',
+              wireType:''
+            })}
           >
             {node.getLabel()}
           </p>
@@ -71,9 +76,12 @@ const view = (model, action) => {
                       className="card-footer"
                     ><a
                       href="#"
-                      onMouseDown={e => action.onDragHandler({event:e,
-                                    node:answerNode, wireType:'goto',
-                                    parentId:node.getId()})}
+                      onMouseDown={e => action.onDragHandler({
+                        event: e,
+                        node: answerNode,
+                        dragType: 'wire',
+                        wireType: 'goto'
+                      })}
                      >{answerNode.getText()}</a>
                     </footer>);
           })}

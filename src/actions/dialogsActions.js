@@ -119,7 +119,7 @@ const actions = {
   },
 
   filterDialogs: ({labelFiler}, value) => {
-    console.log('filterDialogs:',value);
+    //console.log('filterDialogs:',value);
     return {labelFiler:value};
   },
 

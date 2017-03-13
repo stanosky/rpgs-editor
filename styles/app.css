@@ -1,6 +1,7 @@
 body, html {
   overflow: auto;
 }
+.move { cursor: move; }
 
 .side-menu {
   position: absolute;

@@ -11,11 +11,17 @@ const view = (model, action) => {
   <div
     id="dialogsStage"
     className="editor-stage"
-    onCreate={action.updateStage}
+    onCreate={action.initStage}
   >
     <div
       className="blueprint"
       onresize={action.updateStage}
+      onMouseDown={e => action.onDragHandler({
+        node: null,
+        event: e,
+        dragType:'stage',
+        wireType:''
+      })}
       style={{
         position: 'relative',
         top:0,
@@ -26,15 +32,7 @@ const view = (model, action) => {
         "transform-origin": '0% 0%'
       }}
     >
-      <div id="autoResizer" style={{
-        display: 'block',
-        position: 'absolute',
-        width: '1px',
-        height: '1px',
-        top:scrollHeight - 1 + 'px',
-        left:scrollWidth - 1 + 'px',
-      }}>
-      </div>
+
       {talkNodes(model, action)}
       {canvas(model, action)}
     </div>
@@ -44,5 +42,13 @@ const view = (model, action) => {
 export default view;
 
 /*
-
+<div id="autoResizer" style={{
+  display: 'block',
+  position: 'absolute',
+  width: '1px',
+  height: '1px',
+  top:scrollHeight - 1 + 'px',
+  left:scrollWidth - 1 + 'px',
+}}>
+</div>
  */
