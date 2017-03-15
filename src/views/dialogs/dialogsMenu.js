@@ -58,6 +58,15 @@ const view = (model, action) => (
             <i class="fa fa-plus"></i>
           </span>
         </a>
+        <a
+
+          className={'button ' + (model.currDialogNode === null ? 'is-disabled' : '')}
+          onClick={action.showDialogTesterModal}
+        >
+          <span class="icon is-small">
+            <i class="fa fa-play"></i>
+          </span>
+        </a>
       </p>
     </div>
     <div className="stage-menu-bottom-right">

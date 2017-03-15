@@ -278,6 +278,7 @@ const actions = Object.assign({
   showModal: ({ modalVisible }) => ({ modalVisible: true}),
 
   hideModal: ({tempRpgs, tempNode, tempNodeData, modalVisible, modalView }) => {
+    console.log('hideModal');
     tempRpgs.clearData();
     return {tempRpgs, tempNode: null, tempNodeData: null, modalVisible: false, modalView: null};
   },

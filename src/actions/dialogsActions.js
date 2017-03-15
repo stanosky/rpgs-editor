@@ -5,6 +5,7 @@ import editDialog from '../views/modals/editDialog';
 import editTalk from '../views/modals/editTalk';
 import removeDialog from '../views/modals/removeDialog';
 import removeTalk from '../views/modals/removeTalk';
+import dialogTester from '../views/modals/dialogTester';
 
 const actions = {
   selectDialogNode: (model, node, action) => {
@@ -65,6 +66,19 @@ const actions = {
     model.currDialogNode.removeChild(index);
     action.hideModal();
     action.updateStage();
+  },
+
+  showDialogTesterModal: (model, data, action) => {
+    model.dialogWalker.setDialog(model.currDialogNode.getId());
+    action.setModal(dialogTester);
+    action.showModal();
+  },
+
+  dialogTesterSelectOption: (model, id, action) => {
+    let isConversationContinued = model.dialogWalker.selectOption(id);
+    //console.log('isConversationContinued',isConversationContinued);
+    //if(!isConversationContinued) action.hideModal();
+    return isConversationContinued ? {model} : new Promise(action.hideModal);
   },
 
   addDialog: ({rpgs, tempRpgs, tempNode, tempNodeData, currDialogNode}) => {
