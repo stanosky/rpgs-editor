@@ -17,6 +17,7 @@ const view = (model, action) => {
 
     return node !== null ? (
       <div
+        id={'TalkNode-'+nodeId}
         className={"card talk-node is-unselectable " + (showDragBorder ? "drag-border" : "")}
         style={{
             left: node.x + "px",

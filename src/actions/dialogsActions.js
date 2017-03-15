@@ -1,6 +1,7 @@
 'use strict';
 import {Utils} from '../../../rpgs/rpgs/build/rpgs.min';
 import {createTempNode,setupEditModal,mergeTempData} from '../common/utils';
+import {getDivBounds} from '../common/gfx';
 import editDialog from '../views/modals/editDialog';
 import editTalk from '../views/modals/editTalk';
 import removeDialog from '../views/modals/removeDialog';
@@ -50,6 +51,17 @@ const actions = {
   commitEditTalkModal: (model, data, action) => {
     action.addTalk();
     action.hideModal();
+
+    let children = model.currDialogNode.getChildren();
+    let child = children[children.length - 1];
+    let talkBounds = getDivBounds('TalkNode-'+child.getId());
+    let stageBounds = getDivBounds(model.currStage.id);
+    let x = model.stageX + (stageBounds.width - talkBounds.width) * .5;
+    let y = model.stageY + (stageBounds.height - talkBounds.height) * .5;
+    console.log(stageBounds);
+    action.setDragNode(child);
+    action.moveNode({x,y});
+    action.dropNode();
     action.updateStage();
   },
 

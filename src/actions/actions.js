@@ -296,8 +296,8 @@ const actions = Object.assign({
   },
 
   setStage: ({currStage, /*stageWidth, stageHeight, currZoom*/},stage) => {
-    //let rect = stage.getBoundingClientRect();
-
+    let rect = stage.getBoundingClientRect();
+    console.log('setStage',rect);
     return {currStage:stage/*, stageWidth: rect.width/currZoom, stageHeight: rect.height/currZoom*/};
   },
 
