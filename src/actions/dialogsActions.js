@@ -1,5 +1,4 @@
 'use strict';
-import {Utils} from '../../../rpgs/rpgs/build/rpgs.min';
 import {createTempNode,setupEditModal,mergeTempData} from '../common/utils';
 import {getDivBounds} from '../common/gfx';
 import editDialog from '../views/modals/editDialog';
@@ -74,7 +73,7 @@ const actions = {
   commitRemoveTalkModal: (model, data, action) => {
     let id = model.tempNode.getId();
     let children = model.currDialogNode.getChildren();
-    let index = Utils.getIndexById(children, id);
+    let index = rpgs.Utils.getIndexById(children, id);
     model.currDialogNode.removeChild(index);
     action.hideModal();
     action.updateStage();
@@ -113,7 +112,7 @@ const actions = {
 
   removeAnswer: ({tempRpgs, tempNode}, id) => {
     let children = tempNode.getChildren();
-    let index = Utils.getIndexById(children, id);
+    let index = rpgs.Utils.getIndexById(children, id);
 
     tempNode.removeChild(index);
     return {tempRpgs, tempNode};

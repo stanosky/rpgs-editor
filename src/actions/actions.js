@@ -1,6 +1,5 @@
 'use strict';
 
-import {Utils} from '../../../rpgs/rpgs/build/rpgs.min';
 import FileSaver from 'file-saver';
 import dialogsActions from './dialogsActions';
 import loadFile from '../views/modals/loadFile';
