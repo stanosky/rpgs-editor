@@ -1,8 +1,7 @@
 'use strict';
 
-import FileSaver from 'file-saver';
-import dialogsActions from './dialogsActions';
-import loadFile from '../views/modals/loadFile';
+import dialogs from './dialogs';
+import file from './file';
 import {drawWire,getDivBounds} from '../common/gfx';
 import RPGSW from '../libs/rpgsWrapper';
 
@@ -228,36 +227,6 @@ const actions = Object.assign({
     //}
   },
 
-  saveFile: (model, data, actions) => {
-    let serialized = RPGSW.main.serialize();
-    let filename = 'rpgs-data';
-    let blob = new Blob([serialized], {type: "text/plain;charset=utf-8"});
-    FileSaver.saveAs(blob, filename+".json");
-  },
-
-  loadFile: (model, data, actions) => {
-    let files = document.getElementById('selectFiles').files;
-    //console.log(files);
-    if (files.length <= 0) {
-      return false;
-    }
-    let fr = new FileReader();
-
-    fr.onload = function(e) {
-      actions.setLoadingFile(false);
-      actions.setDialogNode(null);
-      RPGSW.main.setData(e.target.result);
-      actions.hideModal();
-    }
-    actions.setLoadingFile(true);
-    fr.readAsText(files.item(0));
-  },
-
-  showLoadFileModal: (model, data, actions) => {
-    actions.setModal(loadFile);
-    actions.showModal();
-  },
-
   onZoomIn: (model, data, actions) => {
     actions.zoomIn();
     actions.updateStage();
@@ -267,6 +236,7 @@ const actions = Object.assign({
     actions.zoomOut();
     actions.updateStage();
   },
+
   setTab: ({ selectedTab }, tab) => {
     return {selectedTab: tab};
   },
@@ -282,8 +252,6 @@ const actions = Object.assign({
     RPGSW.temp.clearData();
     return {modalVisible: false, modalView: null};
   },
-
-  setLoadingFile: ({loadingFile}, value) => ({loadingFile: value}),
 
   setStage: ({currStage, /*stageWidth, stageHeight, currZoom*/},stage) => {
     let rect = stage.getBoundingClientRect();
@@ -335,6 +303,7 @@ const actions = Object.assign({
 
   update: (model) => model
 },
-dialogsActions);
+file,
+dialogs);
 
 export default actions;
