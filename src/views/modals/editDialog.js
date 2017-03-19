@@ -2,15 +2,15 @@
 
 import { h } from 'hyperapp';
 
-const view = (model, action) => (
+const view = (model, actions) => (
     <div className="modal-card"
-      onCreate={action.clearLabelCheck}
+      onCreate={actions.clearLabelCheck}
     >
       <header className="modal-card-head">
         <p className="modal-card-title">Create new dialog</p>
         <button
           className="delete"
-          onclick={action.hideModal}
+          onclick={actions.hideModal}
         ></button>
       </header>
       <section className="modal-card-body">
@@ -24,7 +24,7 @@ const view = (model, action) => (
             type="text"
             placeholder="Text input"
             value=""
-            oninput={e => action.onDialogLabelChange(e.target.value)}
+            oninput={e => actions.onDialogLabelChange(e.target.value)}
           ></input>
           <span className="icon is-small">
             <i className={"fa "
@@ -43,11 +43,11 @@ const view = (model, action) => (
           className={"button "
             + (model.labelAlreadyExist ? "is-disabled" : "is-success")
           }
-          onclick={action.commitEditDialogModal}
+          onclick={actions.commitEditDialogModal}
         >Ok</a>
         <a
           className="button"
-          onclick={action.hideModal}
+          onclick={actions.hideModal}
         >Cancel</a>
       </footer>
     </div>

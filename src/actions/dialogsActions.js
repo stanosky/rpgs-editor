@@ -8,48 +8,48 @@ import removeTalk from '../views/modals/removeTalk';
 import dialogTester from '../views/modals/dialogTester';
 
 const actions = {
-  selectDialogNode: (model, node, action) => {
-    action.setDialogNode(node);
-    action.updateStage();
+  selectDialogNode: (model, node, actions) => {
+    actions.setDialogNode(node);
+    actions.updateStage();
   },
 
-  showEditDialogModal: (model, id, action) => {
-    createTempNode(model, action, 'DialogNode', id);
-    setupEditModal(model, action, editDialog, 'Dialog-');
-    action.showModal();
+  showEditDialogModal: (model, id, actions) => {
+    createTempNode(model, actions, 'DialogNode', id);
+    setupEditModal(model, actions, editDialog, 'Dialog-');
+    actions.showModal();
   },
 
-  commitEditDialogModal: (model, data, action) => {
-    action.addDialog();
-    action.hideModal();
+  commitEditDialogModal: (model, data, actions) => {
+    actions.addDialog();
+    actions.hideModal();
 
     let dialogs = model.rpgs.getNodes('DialogNode');
     let dialogNode = dialogs[dialogs.length-1];
 
-    action.selectDialogNode(dialogNode);
+    actions.selectDialogNode(dialogNode);
   },
 
-  showRemoveDialogModal: (model, data, action) => {
-    action.setModal(removeDialog);
-    action.showModal();
+  showRemoveDialogModal: (model, data, actions) => {
+    actions.setModal(removeDialog);
+    actions.showModal();
   },
 
-  commitRemoveDialogModal: (model, data, action) => {
+  commitRemoveDialogModal: (model, data, actions) => {
     let id = model.currDialogNode.getId();
-    action.selectDialogNode(null);
+    actions.selectDialogNode(null);
     model.rpgs.removeNode(id);
-    action.hideModal();
+    actions.hideModal();
   },
 
-  showEditTalkModal: (model, id, action) => {
-    createTempNode(model, action, 'TalkNode', id);
-    setupEditModal(model, action, editTalk, 'Talk-');
-    action.showModal();
+  showEditTalkModal: (model, id, actions) => {
+    createTempNode(model, actions, 'TalkNode', id);
+    setupEditModal(model, actions, editTalk, 'Talk-');
+    actions.showModal();
   },
 
-  commitEditTalkModal: (model, data, action) => {
-    action.addTalk();
-    action.hideModal();
+  commitEditTalkModal: (model, data, actions) => {
+    actions.addTalk();
+    actions.hideModal();
 
     let children = model.currDialogNode.getChildren();
     let child = children[children.length - 1];
@@ -58,38 +58,38 @@ const actions = {
     let x = model.stageX + (stageBounds.width - talkBounds.width) * .5;
     let y = model.stageY + (stageBounds.height - talkBounds.height) * .5;
     console.log(stageBounds);
-    action.setDragNode(child);
-    action.moveNode({x,y});
-    action.dropNode();
-    action.updateStage();
+    actions.setDragNode(child);
+    actions.moveNode({x,y});
+    actions.dropNode();
+    actions.updateStage();
   },
 
-  showRemoveTalkModal: (model, id, action) => {
+  showRemoveTalkModal: (model, id, actions) => {
     model.tempNode = model.rpgs.findNode(id);
-    action.setModal(removeTalk);
-    action.showModal();
+    actions.setModal(removeTalk);
+    actions.showModal();
   },
 
-  commitRemoveTalkModal: (model, data, action) => {
+  commitRemoveTalkModal: (model, data, actions) => {
     let id = model.tempNode.getId();
     let children = model.currDialogNode.getChildren();
     let index = rpgs.Utils.getIndexById(children, id);
     model.currDialogNode.removeChild(index);
-    action.hideModal();
-    action.updateStage();
+    actions.hideModal();
+    actions.updateStage();
   },
 
-  showDialogTesterModal: (model, data, action) => {
+  showDialogTesterModal: (model, data, actions) => {
     model.dialogWalker.setDialog(model.currDialogNode.getId());
-    action.setModal(dialogTester);
-    action.showModal();
+    actions.setModal(dialogTester);
+    actions.showModal();
   },
 
-  dialogTesterSelectOption: (model, id, action) => {
+  dialogTesterSelectOption: (model, id, actions) => {
     let isConversationContinued = model.dialogWalker.selectOption(id);
     //console.log('isConversationContinued',isConversationContinued);
-    //if(!isConversationContinued) action.hideModal();
-    return isConversationContinued ? {model} : new Promise(action.hideModal);
+    //if(!isConversationContinued) actions.hideModal();
+    return isConversationContinued ? {model} : new Promise(actions.hideModal);
   },
 
   addDialog: ({rpgs, tempRpgs, tempNode, tempNodeData, currDialogNode}) => {

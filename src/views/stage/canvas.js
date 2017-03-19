@@ -3,7 +3,7 @@
 import { h } from 'hyperapp';
 import talkNodes from '../dialogs/talkNodes';
 
-const view = (model, action) => {
+const view = (model, actions) => {
   let scrollWidth = model.currStage !== null ? model.currStage.scrollWidth : 0;
   let scrollHeight = model.currStage !== null ? model.currStage.scrollHeight : 0;
 
@@ -11,7 +11,7 @@ const view = (model, action) => {
   <canvas
     id="stage-canvas"
     className="stage-canvas"
-    onCreate={action.initCanvas}
+    onCreate={actions.initCanvas}
     width={model.stageWidth}
     height={model.stageHeight}
   ></canvas>

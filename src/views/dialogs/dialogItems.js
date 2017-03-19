@@ -10,7 +10,7 @@ const isVisible = (model, label) => {
   return model.labelFiler === '' || label.indexOf(model.labelFiler) > -1;
 };
 
-const view = (model, action) => (
+const view = (model, actions) => (
     model.rpgs.getNodes('DialogNode').map(d => {
       let id = d.getId();
       let label = d.getLabel();
@@ -21,7 +21,7 @@ const view = (model, action) => (
         >
           <a
             id={id}
-            onclick={e => action.selectDialogNode(model.rpgs.findNode(e.target.id))}
+            onclick={e => actions.selectDialogNode(model.rpgs.findNode(e.target.id))}
             className={isActive(model, id) ? 'is-active' : ''}
           >{label}</a>
         </li>

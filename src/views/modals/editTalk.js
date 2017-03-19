@@ -2,7 +2,7 @@
 
 import { h } from 'hyperapp';
 
-const answerItems = (model, action) => {
+const answerItems = (model, actions) => {
   let answers = model.tempNode.getChildren();
 
   return answers.map(answerNode => {
@@ -23,7 +23,7 @@ const answerItems = (model, action) => {
           <a
             id={answerNode.getId()}
             className="button"
-            onclick={e => action.removeAnswer(e.currentTarget.id)}
+            onclick={e => actions.removeAnswer(e.currentTarget.id)}
           >
             <span className="icon">
               <i className="fa fa-trash"></i>
@@ -35,18 +35,18 @@ const answerItems = (model, action) => {
   });
 }
 
-const view = (model, action) => {
+const view = (model, actions) => {
   let tempNode = model.tempNode;
 
   return (
     <div className="modal-card"
-      onCreate={action.clearLabelCheck}
+      onCreate={actions.clearLabelCheck}
     >
         <header className="modal-card-head">
           <p className="modal-card-title">Edit talk</p>
           <button
             className="delete"
-            onclick={action.hideModal}
+            onclick={actions.hideModal}
           ></button>
         </header>
         <section className="modal-card-body">
@@ -60,7 +60,7 @@ const view = (model, action) => {
               type="text"
               placeholder="Text input"
               value=""
-              oninput={e => action.onTalkLabelChange(e.target.value)}
+              oninput={e => actions.onTalkLabelChange(e.target.value)}
             ></input>
             <span className="icon is-small">
               <i className={"fa "
@@ -85,12 +85,12 @@ const view = (model, action) => {
           </p>
           <label className="label">Answers</label>
 
-          {answerItems(model, action)}
+          {answerItems(model, actions)}
 
           <p className="control">
             <a
               className="button"
-              onclick={action.addAnswer}
+              onclick={actions.addAnswer}
             >
               <span className="icon is-small">
                 <i className="fa fa-plus"></i>
@@ -104,11 +104,11 @@ const view = (model, action) => {
             className={"button "
               + (model.labelAlreadyExist ? "is-disabled" : "is-success")
             }
-            onclick={action.commitEditTalkModal}
+            onclick={actions.commitEditTalkModal}
           >Ok</a>
           <a
             className="button"
-            onclick={action.hideModal}
+            onclick={actions.hideModal}
           >Cancel</a>
         </footer>
       </div>

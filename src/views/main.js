@@ -10,23 +10,23 @@ import scripts from './scripts/scripts';
 import variables from './variables/variables';
 import quests from './quests/quests';
 
-const view = (model, action) => {
+const view = (model, actions) => {
   return(
   <div className={model.stageDragging ? 'move' : ''}>
     <nav className="nav has-shadow">
       <div className="container">
-        {navTabs(model, action)}
-        {navFile(model, action)}
+        {navTabs(model, actions)}
+        {navFile(model, actions)}
       </div>
     </nav>
     <section>
-      {dialogs(model, action)}
-      {actors(model, action)}
-      {scripts(model, action)}
-      {variables(model, action)}
-      {quests(model, action)}
+      {dialogs(model, actions)}
+      {actors(model, actions)}
+      {scripts(model, actions)}
+      {variables(model, actions)}
+      {quests(model, actions)}
     </section>
-    {modal(model, action)}
+    {modal(model, actions)}
   </div>);
 }
 

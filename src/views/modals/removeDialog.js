@@ -2,13 +2,13 @@
 
 import { h } from 'hyperapp';
 
-const view = (model, action) => (
+const view = (model, actions) => (
   <div className="modal-card">
     <header className="modal-card-head">
       <p className="modal-card-title">Remove dialog</p>
       <button
         className="delete"
-        onclick={action.hideModal}
+        onclick={actions.hideModal}
       ></button>
     </header>
     <section className="modal-card-body">
@@ -19,11 +19,11 @@ const view = (model, action) => (
         id="confirmBtn"
         data-id=""
         className="button is-warning"
-        onclick={action.commitRemoveDialogModal}
+        onclick={actions.commitRemoveDialogModal}
       >Delete</a>
       <a
         className="button"
-        onclick={action.hideModal}
+        onclick={actions.hideModal}
       >No</a>
     </footer>
   </div>

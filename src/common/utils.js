@@ -15,7 +15,7 @@ const getNodeDataList = (rpgs, node) => {
   },[node.getData()]) : [];
 };
 
-const createTempNode = (model, action, type, id = '') => {
+const createTempNode = (model, actions, type, id = '') => {
   if(id === '') {
     model.tempNodeData = [];
     model.tempRpgs.addNode(type, {});
@@ -29,10 +29,10 @@ const createTempNode = (model, action, type, id = '') => {
   model.tempNode = model.tempRpgs.getNodes()[0];
 };
 
-const setupEditModal = (model, action, view, labelPrefix) => {
+const setupEditModal = (model, actions, view, labelPrefix) => {
   let input, label;
   label = model.tempNode.getLabel();
-  action.setModal(view);
+  actions.setModal(view);
   input = document.getElementById('nodeLabelInput');
   input.value = label || getRandomLabel(labelPrefix, model.tempNode.getId());
 };

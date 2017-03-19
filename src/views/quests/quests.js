@@ -1,6 +1,6 @@
 import { h } from 'hyperapp';
 
-const view = (model, action) => (
+const view = (model, actions) => (
   <div
     id="QuestsTab"
     className={model.selectedTab === 'Quests' ? '' : 'is-hidden'}

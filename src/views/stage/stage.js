@@ -4,19 +4,19 @@ import { h } from 'hyperapp';
 import talkNodes from '../dialogs/talkNodes';
 import canvas from './canvas';
 
-const view = (model, action) => {
+const view = (model, actions) => {
   let scrollWidth = model.currStage !== null ? model.currStage.scrollWidth : 0;
   let scrollHeight = model.currStage !== null ? model.currStage.scrollHeight : 0;
   return (
   <div
     id="dialogsStage"
     className="editor-stage"
-    onCreate={action.initStage}
+    onCreate={actions.initStage}
   >
     <div
       className="blueprint"
-      onresize={action.updateStage}
-      onMouseDown={e => action.onDragHandler({
+      onresize={actions.updateStage}
+      onMouseDown={e => actions.onDragHandler({
         node: null,
         event: e,
         dragType:'stage',
@@ -33,8 +33,8 @@ const view = (model, action) => {
       }}
     >
 
-      {talkNodes(model, action)}
-      {canvas(model, action)}
+      {talkNodes(model, actions)}
+      {canvas(model, actions)}
     </div>
   </div>
 )};

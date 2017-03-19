@@ -2,7 +2,7 @@
 
 import { h } from 'hyperapp';
 
-const view = (model, action) => {
+const view = (model, actions) => {
   let conversation = model.dialogWalker.getConversation();
   return (
     <div className="modal-card">
@@ -10,7 +10,7 @@ const view = (model, action) => {
         <p className="modal-card-title">Dialog tester</p>
         <button
           className="delete"
-          onclick={action.hideModal}
+          onclick={actions.hideModal}
         ></button>
       </header>
       <section className="modal-card-body">
@@ -20,7 +20,7 @@ const view = (model, action) => {
             <a
               id={answer.id}
               class="button is-link"
-              onclick={e => action.dialogTesterSelectOption(e.currentTarget.id)}
+              onclick={e => actions.dialogTesterSelectOption(e.currentTarget.id)}
             >{answer.text}</a><br />
           </span>)
         )}
@@ -28,7 +28,7 @@ const view = (model, action) => {
       <footer className="modal-card-foot">
         <a
           className="button"
-          onclick={action.hideModal}
+          onclick={actions.hideModal}
         >Close</a>
       </footer>
     </div>

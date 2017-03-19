@@ -3,19 +3,19 @@
 import { h } from 'hyperapp';
 import dialogItems from './dialogItems';
 
-const view = (model, action) => (
+const view = (model, actions) => (
   <aside className="menu side-menu">
     <nav className="panel side-panel is-marginless">
       <div className="panel-block">
         <p className="control">
-          <a className="button" onClick={e => action.showEditDialogModal('')}>
+          <a className="button" onClick={e => actions.showEditDialogModal('')}>
             <span className="icon">
               <i className="fa fa-comments-o"></i>
             </span>
             <span>New</span>
           </a>
           <a
-            onClick={e => action.showEditDialogModal(model.currDialogNode.getId())}
+            onClick={e => actions.showEditDialogModal(model.currDialogNode.getId())}
             className={'button ' + (model.currDialogNode === null ? 'is-disabled' : '')}
           >
             <span className="icon">
@@ -24,7 +24,7 @@ const view = (model, action) => (
             <span>Edit</span>
           </a>
           <a
-            onClick={action.showRemoveDialogModal}
+            onClick={actions.showRemoveDialogModal}
             className={'button ' + (model.currDialogNode === null ? 'is-disabled' : '')}
           >
             <span className="icon">
@@ -40,7 +40,7 @@ const view = (model, action) => (
             className="input is-small"
             type="text"
             placeholder="Search"
-            oninput={e => action.filterDialogs(e.currentTarget.value)}
+            oninput={e => actions.filterDialogs(e.currentTarget.value)}
           ></input>
           <span className="icon is-small">
             <i className="fa fa-search"></i>
@@ -52,7 +52,7 @@ const view = (model, action) => (
       <p class="control">
         <a
           className={'button ' + (model.currDialogNode === null ? 'is-disabled' : '')}
-          onClick={e => action.showEditTalkModal('')}
+          onClick={e => actions.showEditTalkModal('')}
         >
           <span class="icon is-small">
             <i class="fa fa-plus"></i>
@@ -61,7 +61,7 @@ const view = (model, action) => (
         <a
 
           className={'button ' + (model.currDialogNode === null ? 'is-disabled' : '')}
-          onClick={action.showDialogTesterModal}
+          onClick={actions.showDialogTesterModal}
         >
           <span class="icon is-small">
             <i class="fa fa-play"></i>
@@ -73,7 +73,7 @@ const view = (model, action) => (
       <p class="control">
         <a
           className={'button ' + (model.currDialogNode === null ? 'is-disabled' : '')}
-          onclick={action.onZoomIn}
+          onclick={actions.onZoomIn}
         >
           <span class="icon is-small">
             <i class="fa fa-search-plus"></i>
@@ -81,7 +81,7 @@ const view = (model, action) => (
         </a>
         <a
           className={'button ' + (model.currDialogNode === null ? 'is-disabled' : '')}
-          onclick={action.onZoomOut}
+          onclick={actions.onZoomOut}
         >
           <span class="icon is-small">
             <i class="fa fa-search-minus"></i>
@@ -90,7 +90,7 @@ const view = (model, action) => (
       </p>
     </div>
     <ul class="menu-list node-list">
-      {dialogItems(model, action)}
+      {dialogItems(model, actions)}
     </ul>
   </aside>
 );

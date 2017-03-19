@@ -2,7 +2,7 @@
 
 import { h } from 'hyperapp';
 
-const view = (model, action) => {
+const view = (model, actions) => {
   let children = [];
   let startTalk = '';
 
@@ -27,7 +27,7 @@ const view = (model, action) => {
         <header className="card-header">
           <p
             className="card-header-title"
-            onMouseDown={e => action.onDragHandler({
+            onMouseDown={e => actions.onDragHandler({
               node: node,
               event: e,
               dragType:'node',
@@ -39,7 +39,7 @@ const view = (model, action) => {
           <a
             data-id={nodeId}
             className="card-header-icon"
-            onclick={e => action.setStartTalk(e.currentTarget['data-id'])}
+            onclick={e => actions.setStartTalk(e.currentTarget['data-id'])}
           >
             <span className="icon">
               <i className={"fa fa-star"+(startTalk === nodeId ? "" : "-o")}></i>
@@ -48,7 +48,7 @@ const view = (model, action) => {
           <a
             data-id={nodeId}
             className="card-header-icon"
-            onclick={e => action.showRemoveTalkModal(e.currentTarget['data-id'])}
+            onclick={e => actions.showRemoveTalkModal(e.currentTarget['data-id'])}
           >
             <span className="icon">
               <i className="fa fa-trash"></i>
@@ -57,7 +57,7 @@ const view = (model, action) => {
           <a
             data-id={nodeId}
             className="card-header-icon"
-            onclick={e => action.showEditTalkModal(e.currentTarget['data-id'])}
+            onclick={e => actions.showEditTalkModal(e.currentTarget['data-id'])}
           >
             <span className="icon">
               <i className="fa fa-pencil"></i>
@@ -77,7 +77,7 @@ const view = (model, action) => {
                       className="card-footer"
                     ><a
                       href="#"
-                      onMouseDown={e => action.onDragHandler({
+                      onMouseDown={e => actions.onDragHandler({
                         event: e,
                         node: answerNode,
                         dragType: 'wire',

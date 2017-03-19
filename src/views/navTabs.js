@@ -4,12 +4,12 @@ import { h } from 'hyperapp';
 
 const icon = ['fa-comments','fa-users', 'fa-tasks','fa-asterisk','fa-code'];
 
-const view = (model, action) => (
+const view = (model, actions) => (
   <div class="nav-left">
     {
       model.tabs.map((tab,index) =>
         <a
-          id={tab} onclick={e => action.switchTab(e)}
+          id={tab} onclick={e => actions.switchTab(e)}
           className={"nav-item is-tab " + (model.selectedTab === tab ? "is-active" : "")}
         >
           <span className="icon is-small"><i class={'fa ' + icon[index]}></i></span>

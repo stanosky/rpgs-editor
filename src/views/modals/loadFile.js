@@ -2,13 +2,13 @@
 
 import { h } from 'hyperapp';
 
-const view = (model, action) => (
+const view = (model, actions) => (
     <div className="modal-card">
       <header className="modal-card-head">
         <p className="modal-card-title">Load file</p>
         <button
           className="delete"
-          onclick={action.hideModal}
+          onclick={actions.hideModal}
         ></button>
       </header>
       <section className="modal-card-body">
@@ -24,11 +24,11 @@ const view = (model, action) => (
       <footer className="modal-card-foot">
         <a
           className={"button " + (model.loadingFile ? "is-loading" : "")}
-          onclick={action.loadFile}
+          onclick={actions.loadFile}
         >Load</a>
         <a
           className="button"
-          onclick={action.hideModal}
+          onclick={actions.hideModal}
         >Cancel</a>
       </footer>
     </div>

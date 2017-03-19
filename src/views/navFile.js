@@ -2,12 +2,12 @@
 
 import { h } from 'hyperapp';
 
-const view = (model, action) => (
+const view = (model, actions) => (
   <div class="nav-right nav-menu">
     <span class="nav-item">
       <a
         class="button is-white"
-        onclick={action.showLoadFileModal}
+        onclick={actions.showLoadFileModal}
       >
         <span class="icon is-small">
           <i class="fa fa-upload"></i>
@@ -16,7 +16,7 @@ const view = (model, action) => (
       </a>
       <a
         class="button is-white"
-        onclick={action.saveFile}
+        onclick={actions.saveFile}
       >
         <span class="icon is-small">
           <i class="fa fa-download"></i>
