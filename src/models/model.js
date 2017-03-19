@@ -1,12 +1,7 @@
 'use strict';
 import dialogsModel from './dialogsModel';
 
-//const rpgsMain = new rpgs.RPGSystem();
-
 const model = Object.assign({
-  //rpgs: rpgsMain,
-  //tempRpgs: new rpgs.RPGSystem(),
-  //dialogWalker: new rpgs.DialogWalker(rpgsMain),
   tabs: ['Dialogs','Actors','Quests','Variables','Scripts'],
   selectedTab: 'Dialogs',
   labelAlreadyExist: false,

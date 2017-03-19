@@ -81,13 +81,13 @@ const actions = {
   },
 
   showDialogTesterModal: (model, data, actions) => {
-    model.dialogWalker.setDialog(model.currDialogNode.getId());
+    RPGS.walker.setDialog(model.currDialogNode.getId());
     actions.setModal(dialogTester);
     actions.showModal();
   },
 
   dialogTesterSelectOption: (model, id, actions) => {
-    let isConversationContinued = model.dialogWalker.selectOption(id);
+    let isConversationContinued = RPGS.walker.selectOption(id);
     //console.log('isConversationContinued',isConversationContinued);
     //if(!isConversationContinued) actions.hideModal();
     return isConversationContinued ? {model} : new Promise(actions.hideModal);

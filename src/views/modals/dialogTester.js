@@ -1,9 +1,10 @@
 'use strict';
 
 import { h } from 'hyperapp';
+import RPGS from '../../libs/rpgs';
 
 const view = (model, actions) => {
-  let conversation = model.dialogWalker.getConversation();
+  let conversation = RPGS.walker.getConversation();
   return (
     <div className="modal-card">
       <header className="modal-card-head">
