@@ -74,7 +74,7 @@ const actions = {
   commitRemoveTalkModal: (model, data, actions) => {
     let id = model.tempNode.getId();
     let children = model.currDialogNode.getChildren();
-    let index = rpgs.Utils.getIndexById(children, id);
+    let index = RPGS.utils.getIndexById(children, id);
     model.currDialogNode.removeChild(index);
     actions.hideModal();
     actions.updateStage();
@@ -113,7 +113,7 @@ const actions = {
 
   removeAnswer: ({tempNode}, id) => {
     let children = tempNode.getChildren();
-    let index = rpgs.Utils.getIndexById(children, id);
+    let index = RPGS.utils.getIndexById(children, id);
 
     tempNode.removeChild(index);
     return {tempNode};

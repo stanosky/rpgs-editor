@@ -342,6 +342,8 @@ const actions = Object.assign({
     currZoom -= currZoom - .1 >= minZoom ? .1 : 0;
     return {currZoom}
   },
+
+  update: (model) => model
 },
 dialogsActions);
 
