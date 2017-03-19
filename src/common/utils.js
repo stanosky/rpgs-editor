@@ -1,10 +1,12 @@
 'use strict';
+import RPGS from '../libs/rpgs';
+
 
 const getRandomLabel = (prefix, id) => prefix + id.substr(0,4);
 
 const getNodeDataList = (rpgs, node) => {
   return node !== null ? node.getChildren().reduce((prevVal, currVal) => {
-    //let currNode = rpgs.findNode(currVal);
+    //let currNode = RPGS.main.findNode(currVal);
     let children = currVal.getChildren();
 
     if(children.length > 0) {
@@ -18,15 +20,15 @@ const getNodeDataList = (rpgs, node) => {
 const createTempNode = (model, actions, type, id = '') => {
   if(id === '') {
     model.tempNodeData = [];
-    model.tempRpgs.addNode(type, {});
+    RPGS.temp.addNode(type, {});
   } else {
-    let nodeToEdit = model.rpgs.findNode(id);
-    //console.log('getNodeDataList:',getNodeDataList(model.rpgs, nodeToEdit));
-    let data = getNodeDataList(model.rpgs, nodeToEdit);
+    let nodeToEdit = RPGS.main.findNode(id);
+    //console.log('getNodeDataList:',getNodeDataList(RPGS.main, nodeToEdit));
+    let data = getNodeDataList(RPGS.main, nodeToEdit);
     model.tempNodeData = data;
-    model.tempRpgs.mergeNodes(JSON.stringify(data));
+    RPGS.temp.mergeNodes(JSON.stringify(data));
   }
-  model.tempNode = model.tempRpgs.getNodes()[0];
+  model.tempNode = RPGS.temp.getNodes()[0];
 };
 
 const setupEditModal = (model, actions, view, labelPrefix) => {
@@ -37,12 +39,12 @@ const setupEditModal = (model, actions, view, labelPrefix) => {
   input.value = label || getRandomLabel(labelPrefix, model.tempNode.getId());
 };
 
-const mergeTempData = (rpgs, tempRpgs, tempNode, tempNodeData) => {
+const mergeTempData = (tempNode, tempNodeData) => {
   let label = document.getElementById('nodeLabelInput').value;
 
-  tempNodeData.forEach(n => rpgs.removeNode(n.uuid, false));
+  tempNodeData.forEach(n => RPGS.main.removeNode(n.uuid, false));
   tempNode.setLabel(label);
-  rpgs.mergeNodes(tempRpgs.serialize());
+  RPGS.main.mergeNodes(RPGS.temp.serialize());
 };
 
 module.exports = {

@@ -1,6 +1,6 @@
 'use strict';
-
 import { h } from 'hyperapp';
+import RPGS from '../../libs/rpgs';
 
 const isActive = (model, id) => {
   return model.currDialogNode !== null && model.currDialogNode.getId() === id;
@@ -11,7 +11,7 @@ const isVisible = (model, label) => {
 };
 
 const view = (model, actions) => (
-    model.rpgs.getNodes('DialogNode').map(d => {
+    RPGS.main.getNodes('DialogNode').map(d => {
       let id = d.getId();
       let label = d.getLabel();
       //console.log('dialogItems');
@@ -21,7 +21,7 @@ const view = (model, actions) => (
         >
           <a
             id={id}
-            onclick={e => actions.selectDialogNode(model.rpgs.findNode(e.target.id))}
+            onclick={e => actions.selectDialogNode(RPGS.main.findNode(e.target.id))}
             className={isActive(model, id) ? 'is-active' : ''}
           >{label}</a>
         </li>

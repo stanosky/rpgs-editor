@@ -6,6 +6,7 @@ import editTalk from '../views/modals/editTalk';
 import removeDialog from '../views/modals/removeDialog';
 import removeTalk from '../views/modals/removeTalk';
 import dialogTester from '../views/modals/dialogTester';
+import RPGS from '../libs/rpgs';
 
 const actions = {
   selectDialogNode: (model, node, actions) => {
@@ -23,7 +24,7 @@ const actions = {
     actions.addDialog();
     actions.hideModal();
 
-    let dialogs = model.rpgs.getNodes('DialogNode');
+    let dialogs = RPGS.main.getNodes('DialogNode');
     let dialogNode = dialogs[dialogs.length-1];
 
     actions.selectDialogNode(dialogNode);
@@ -37,7 +38,7 @@ const actions = {
   commitRemoveDialogModal: (model, data, actions) => {
     let id = model.currDialogNode.getId();
     actions.selectDialogNode(null);
-    model.rpgs.removeNode(id);
+    RPGS.main.removeNode(id);
     actions.hideModal();
   },
 
@@ -65,7 +66,7 @@ const actions = {
   },
 
   showRemoveTalkModal: (model, id, actions) => {
-    model.tempNode = model.rpgs.findNode(id);
+    model.tempNode = RPGS.main.findNode(id);
     actions.setModal(removeTalk);
     actions.showModal();
   },
@@ -92,55 +93,55 @@ const actions = {
     return isConversationContinued ? {model} : new Promise(actions.hideModal);
   },
 
-  addDialog: ({rpgs, tempRpgs, tempNode, tempNodeData, currDialogNode}) => {
-    mergeTempData(rpgs, tempRpgs, tempNode, tempNodeData);
-    currDialogNode = rpgs.findNode(tempNode.getId());
-    return {rpgs, tempRpgs, tempNode, tempNodeData, currDialogNode};
+  addDialog: ({tempNode, tempNodeData, currDialogNode}) => {
+    mergeTempData(tempNode, tempNodeData);
+    currDialogNode = RPGS.main.findNode(tempNode.getId());
+    return {tempNode, tempNodeData, currDialogNode};
   },
 
-  removeDialog: ({rpgs,currDialogNode}) => {
+  removeDialog: ({currDialogNode}) => {
     if(currDialogNode !== null) {
-      rpgs.removeNode(currDialogNode.getId());
+      RPGS.main.removeNode(currDialogNode.getId());
     }
-    return {rpgs, currDialogNode: null};
+    return {currDialogNode: null};
   },
 
-  addAnswer: ({tempRpgs, tempNode}) => {
+  addAnswer: ({tempNode}) => {
     tempNode.addChild({class:'AnswerNode'});
-    return {tempRpgs, tempNode};
+    return {tempNode};
   },
 
-  removeAnswer: ({tempRpgs, tempNode}, id) => {
+  removeAnswer: ({tempNode}, id) => {
     let children = tempNode.getChildren();
     let index = rpgs.Utils.getIndexById(children, id);
 
     tempNode.removeChild(index);
-    return {tempRpgs, tempNode};
+    return {tempNode};
   },
 
-  addTalk: ({rpgs, tempRpgs, tempNode, tempNodeData, currDialogNode}) => {
-    mergeTempData(rpgs, tempRpgs, tempNode, tempNodeData);
+  addTalk: ({tempNode, tempNodeData, currDialogNode}) => {
+    mergeTempData(tempNode, tempNodeData);
     currDialogNode.setNodeAsChild(tempNode);
-    return {rpgs, tempRpgs, tempNode, tempNodeData, currDialogNode};
+    return {tempNode, tempNodeData, currDialogNode};
   },
 
-  onDialogLabelChange: ({rpgs,labelAlreadyExist,tempNode}, value) => {
-    let dialogs = rpgs.getNodes('DialogNode');
+  onDialogLabelChange: ({labelAlreadyExist,tempNode}, value) => {
+    let dialogs = RPGS.main.getNodes('DialogNode');
 
     labelAlreadyExist = dialogs.filter(d => d.getLabel() === value).length > 0;
     tempNode.setLabel(value);
     //console.log('labelAlreadyExist',labelAlreadyExist);
-    return {rpgs,labelAlreadyExist,tempNode};
+    return {labelAlreadyExist,tempNode};
   },
 
-  onTalkLabelChange: ({rpgs,tempNode,currDialogNode,labelAlreadyExist}, value) => {
+  onTalkLabelChange: ({tempNode,currDialogNode,labelAlreadyExist}, value) => {
     let talksIds = currDialogNode.getChildren();
-    let talks = talksIds.map(id => rpgs.findNode(id));
+    let talks = talksIds.map(id => RPGS.main.findNode(id));
 
     tempNode.setLabel(value);
     labelAlreadyExist = talks.filter(t => t.getLabel() === value).length > 0;
     //console.log('labelAlreadyExist',labelAlreadyExist);
-    return {rpgs,tempNode,currDialogNode,labelAlreadyExist};
+    return {tempNode,currDialogNode,labelAlreadyExist};
   },
 
   filterDialogs: ({labelFiler}, value) => {
