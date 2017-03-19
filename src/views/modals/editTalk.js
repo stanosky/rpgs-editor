@@ -6,7 +6,7 @@ const answerItems = (model, actions) => {
   let answers = model.tempNode.getChildren();
 
   return answers.map(answerNode => {
-    //let answerNode = RPGS.temp.findNode(a);
+    //let answerNode = RPGSW.temp.findNode(a);
 
     return (
       <div className="columns">

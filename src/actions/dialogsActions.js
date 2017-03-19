@@ -6,7 +6,7 @@ import editTalk from '../views/modals/editTalk';
 import removeDialog from '../views/modals/removeDialog';
 import removeTalk from '../views/modals/removeTalk';
 import dialogTester from '../views/modals/dialogTester';
-import RPGS from '../libs/rpgs';
+import RPGSW from '../libs/rpgsWrapper';
 
 const actions = {
   selectDialogNode: (model, node, actions) => {
@@ -24,7 +24,7 @@ const actions = {
     actions.addDialog();
     actions.hideModal();
 
-    let dialogs = RPGS.main.getNodes('DialogNode');
+    let dialogs = RPGSW.main.getNodes('DialogNode');
     let dialogNode = dialogs[dialogs.length-1];
 
     actions.selectDialogNode(dialogNode);
@@ -38,7 +38,7 @@ const actions = {
   commitRemoveDialogModal: (model, data, actions) => {
     let id = model.currDialogNode.getId();
     actions.selectDialogNode(null);
-    RPGS.main.removeNode(id);
+    RPGSW.main.removeNode(id);
     actions.hideModal();
   },
 
@@ -66,7 +66,7 @@ const actions = {
   },
 
   showRemoveTalkModal: (model, id, actions) => {
-    model.tempNode = RPGS.main.findNode(id);
+    model.tempNode = RPGSW.main.findNode(id);
     actions.setModal(removeTalk);
     actions.showModal();
   },
@@ -74,20 +74,20 @@ const actions = {
   commitRemoveTalkModal: (model, data, actions) => {
     let id = model.tempNode.getId();
     let children = model.currDialogNode.getChildren();
-    let index = RPGS.utils.getIndexById(children, id);
+    let index = RPGSW.utils.getIndexById(children, id);
     model.currDialogNode.removeChild(index);
     actions.hideModal();
     actions.updateStage();
   },
 
   showDialogTesterModal: (model, data, actions) => {
-    RPGS.walker.setDialog(model.currDialogNode.getId());
+    RPGSW.walker.setDialog(model.currDialogNode.getId());
     actions.setModal(dialogTester);
     actions.showModal();
   },
 
   dialogTesterSelectOption: (model, id, actions) => {
-    let isConversationContinued = RPGS.walker.selectOption(id);
+    let isConversationContinued = RPGSW.walker.selectOption(id);
     //console.log('isConversationContinued',isConversationContinued);
     //if(!isConversationContinued) actions.hideModal();
     return isConversationContinued ? {model} : new Promise(actions.hideModal);
@@ -95,13 +95,13 @@ const actions = {
 
   addDialog: ({tempNode, tempNodeData, currDialogNode}) => {
     mergeTempData(tempNode, tempNodeData);
-    currDialogNode = RPGS.main.findNode(tempNode.getId());
+    currDialogNode = RPGSW.main.findNode(tempNode.getId());
     return {tempNode, tempNodeData, currDialogNode};
   },
 
   removeDialog: ({currDialogNode}) => {
     if(currDialogNode !== null) {
-      RPGS.main.removeNode(currDialogNode.getId());
+      RPGSW.main.removeNode(currDialogNode.getId());
     }
     return {currDialogNode: null};
   },
@@ -113,7 +113,7 @@ const actions = {
 
   removeAnswer: ({tempNode}, id) => {
     let children = tempNode.getChildren();
-    let index = RPGS.utils.getIndexById(children, id);
+    let index = RPGSW.utils.getIndexById(children, id);
 
     tempNode.removeChild(index);
     return {tempNode};
@@ -126,7 +126,7 @@ const actions = {
   },
 
   onDialogLabelChange: ({labelAlreadyExist,tempNode}, value) => {
-    let dialogs = RPGS.main.getNodes('DialogNode');
+    let dialogs = RPGSW.main.getNodes('DialogNode');
 
     labelAlreadyExist = dialogs.filter(d => d.getLabel() === value).length > 0;
     tempNode.setLabel(value);
@@ -136,7 +136,7 @@ const actions = {
 
   onTalkLabelChange: ({tempNode,currDialogNode,labelAlreadyExist}, value) => {
     let talksIds = currDialogNode.getChildren();
-    let talks = talksIds.map(id => RPGS.main.findNode(id));
+    let talks = talksIds.map(id => RPGSW.main.findNode(id));
 
     tempNode.setLabel(value);
     labelAlreadyExist = talks.filter(t => t.getLabel() === value).length > 0;

@@ -4,7 +4,7 @@ import FileSaver from 'file-saver';
 import dialogsActions from './dialogsActions';
 import loadFile from '../views/modals/loadFile';
 import {drawWire,getDivBounds} from '../common/gfx';
-import RPGS from '../libs/rpgs';
+import RPGSW from '../libs/rpgsWrapper';
 
 const actions = Object.assign({
   switchTab: (model, e, actions) => {
@@ -147,7 +147,7 @@ const actions = Object.assign({
 
   dropWire: (model, data, actions) => {
     if(model.highlightId !== '') {
-      RPGS.main.setConnection(model.tempWire.type,model.dragNode.getId(),model.highlightId);
+      RPGSW.main.setConnection(model.tempWire.type,model.dragNode.getId(),model.highlightId);
     }
 
     actions.setHighlight('');
@@ -229,7 +229,7 @@ const actions = Object.assign({
   },
 
   saveFile: (model, data, actions) => {
-    let serialized = RPGS.main.serialize();
+    let serialized = RPGSW.main.serialize();
     let filename = 'rpgs-data';
     let blob = new Blob([serialized], {type: "text/plain;charset=utf-8"});
     FileSaver.saveAs(blob, filename+".json");
@@ -246,7 +246,7 @@ const actions = Object.assign({
     fr.onload = function(e) {
       actions.setLoadingFile(false);
       actions.setDialogNode(null);
-      RPGS.main.setData(e.target.result);
+      RPGSW.main.setData(e.target.result);
       actions.hideModal();
     }
     actions.setLoadingFile(true);
@@ -279,7 +279,7 @@ const actions = Object.assign({
 
   hideModal: ({tempNode, tempNodeData, modalVisible, modalView }) => {
     console.log('hideModal');
-    RPGS.temp.clearData();
+    RPGSW.temp.clearData();
     return {tempNode: null, tempNodeData: null, modalVisible: false, modalView: null};
   },
 

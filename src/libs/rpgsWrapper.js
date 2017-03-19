@@ -4,11 +4,11 @@ const rpgsMain = new rpgs.RPGSystem();
 const rpgsTemp = new rpgs.RPGSystem();
 const walker = new rpgs.DialogWalker(rpgsMain);
 
-const RPGS = {
+const RPGSW = {
   main: rpgsMain,
   temp: rpgsTemp,
   walker,
   utils: rpgs.Utils,
 };
 
-export default RPGS;
+export default RPGSW;

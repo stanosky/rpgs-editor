@@ -1,16 +1,15 @@
 'use strict';
-import RPGS from '../libs/rpgs';
+import RPGSW from '../libs/rpgsWrapper';
 
 
 const getRandomLabel = (prefix, id) => prefix + id.substr(0,4);
 
-const getNodeDataList = (rpgs, node) => {
+const getNodeDataList = (node) => {
   return node !== null ? node.getChildren().reduce((prevVal, currVal) => {
-    //let currNode = RPGS.main.findNode(currVal);
     let children = currVal.getChildren();
 
     if(children.length > 0) {
-      return prevVal.concat(getNodeDataList(rpgs, currVal));
+      return prevVal.concat(getNodeDataList(currVal));
     } else {
       return prevVal.concat(currVal.getData());
     }
@@ -20,15 +19,15 @@ const getNodeDataList = (rpgs, node) => {
 const createTempNode = (model, actions, type, id = '') => {
   if(id === '') {
     model.tempNodeData = [];
-    RPGS.temp.addNode(type, {});
+    RPGSW.temp.addNode(type, {});
   } else {
-    let nodeToEdit = RPGS.main.findNode(id);
-    //console.log('getNodeDataList:',getNodeDataList(RPGS.main, nodeToEdit));
-    let data = getNodeDataList(RPGS.main, nodeToEdit);
+    let nodeToEdit = RPGSW.main.findNode(id);
+    //console.log('getNodeDataList:',getNodeDataList(nodeToEdit));
+    let data = getNodeDataList(nodeToEdit);
     model.tempNodeData = data;
-    RPGS.temp.mergeNodes(JSON.stringify(data));
+    RPGSW.temp.mergeNodes(JSON.stringify(data));
   }
-  model.tempNode = RPGS.temp.getNodes()[0];
+  model.tempNode = RPGSW.temp.getNodes()[0];
 };
 
 const setupEditModal = (model, actions, view, labelPrefix) => {
@@ -42,9 +41,9 @@ const setupEditModal = (model, actions, view, labelPrefix) => {
 const mergeTempData = (tempNode, tempNodeData) => {
   let label = document.getElementById('nodeLabelInput').value;
 
-  tempNodeData.forEach(n => RPGS.main.removeNode(n.uuid, false));
+  tempNodeData.forEach(n => RPGSW.main.removeNode(n.uuid, false));
   tempNode.setLabel(label);
-  RPGS.main.mergeNodes(RPGS.temp.serialize());
+  RPGSW.main.mergeNodes(RPGSW.temp.serialize());
 };
 
 module.exports = {
