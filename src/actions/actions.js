@@ -277,23 +277,13 @@ const actions = Object.assign({
 
   showModal: ({ modalVisible }) => ({ modalVisible: true}),
 
-  hideModal: ({tempNode, tempNodeData, modalVisible, modalView }) => {
+  hideModal: ({modalVisible, modalView }) => {
     console.log('hideModal');
     RPGSW.temp.clearData();
-    return {tempNode: null, tempNodeData: null, modalVisible: false, modalView: null};
+    return {modalVisible: false, modalView: null};
   },
 
   setLoadingFile: ({loadingFile}, value) => ({loadingFile: value}),
-
-  setTempNode: ({tempNode}, node) => {
-    //console.log('setTempNode',node);
-    return {tempNode: node}
-  },
-
-  setTempNodeData: ({tempNodeData}, data) => {
-    //console.log('setTempNodeData',data);
-    return {tempNodeData: data}
-  },
 
   setStage: ({currStage, /*stageWidth, stageHeight, currZoom*/},stage) => {
     let rect = stage.getBoundingClientRect();

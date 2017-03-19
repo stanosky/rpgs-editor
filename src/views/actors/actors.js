@@ -12,7 +12,7 @@ const view = (model, actions) => (
             Not available yet :(
           </h1>
           <h2 class="subtitle">
-            Expected after release of 1.2 version of RPGSW.
+            Expected after release of 1.2 version of RPGS.
           </h2>
         </div>
       </div>

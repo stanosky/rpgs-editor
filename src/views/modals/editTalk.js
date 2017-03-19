@@ -1,13 +1,12 @@
 'use strict';
 
 import { h } from 'hyperapp';
+import RPGSW from '../../libs/rpgsWrapper';
 
 const answerItems = (model, actions) => {
-  let answers = model.tempNode.getChildren();
+  let answers = RPGSW.tempNode.getChildren();
 
   return answers.map(answerNode => {
-    //let answerNode = RPGSW.temp.findNode(a);
-
     return (
       <div className="columns">
         <div className="column is-11">
@@ -36,7 +35,7 @@ const answerItems = (model, actions) => {
 }
 
 const view = (model, actions) => {
-  let tempNode = model.tempNode;
+  let tempNode = RPGSW.tempNode;
 
   return (
     <div className="modal-card"

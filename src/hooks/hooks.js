@@ -1,3 +1,7 @@
+'use strict';
+
+import RPGSW from '../libs/rpgsWrapper';
+
 const hooks = {
     /*onError: e =>
         console.log("[Error] %c%s", "color: red", e),

@@ -7,8 +7,6 @@ const model = Object.assign({
   labelAlreadyExist: false,
   modalVisible: false,
   modalView: null,
-  tempNode: null,
-  tempNodeData: null,
   tempWire: null,
   tempDrawArea: null,
   wiresDrawArea: null,
