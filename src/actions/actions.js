@@ -250,7 +250,7 @@ const actions = Object.assign({
   hideModal: ({modalVisible, modalView }) => {
     console.log('hideModal');
     RPGSW.temp.clearData();
-    return {modalVisible: false, modalView: null};
+    return {modalVisible: false, modalView: ''};
   },
 
   setStage: ({currStage, /*stageWidth, stageHeight, currZoom*/},stage) => {

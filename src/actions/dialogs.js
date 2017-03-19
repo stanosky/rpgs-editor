@@ -1,11 +1,6 @@
 'use strict';
 import {setupEditModal} from '../common/utils';
 import {getDivBounds} from '../common/gfx';
-import editDialog from '../views/modals/editDialog';
-import editTalk from '../views/modals/editTalk';
-import removeDialog from '../views/modals/removeDialog';
-import removeTalk from '../views/modals/removeTalk';
-import dialogTester from '../views/modals/dialogTester';
 import RPGSW from '../libs/rpgsWrapper';
 
 const actions = {
@@ -16,7 +11,7 @@ const actions = {
 
   showEditDialogModal: (model, id, actions) => {
     RPGSW.createTempNode('DialogNode', id);
-    setupEditModal(actions, editDialog, 'Dialog-');
+    setupEditModal(actions, 'editDialog', 'Dialog-');
     actions.showModal();
   },
 
@@ -31,7 +26,7 @@ const actions = {
   },
 
   showRemoveDialogModal: (model, data, actions) => {
-    actions.setModal(removeDialog);
+    actions.setModal('removeDialog');
     actions.showModal();
   },
 
@@ -44,7 +39,7 @@ const actions = {
 
   showEditTalkModal: (model, id, actions) => {
     RPGSW.createTempNode('TalkNode', id);
-    setupEditModal(actions, editTalk, 'Talk-');
+    setupEditModal(actions, 'editTalk', 'Talk-');
     actions.showModal();
   },
 
@@ -67,7 +62,7 @@ const actions = {
 
   showRemoveTalkModal: (model, id, actions) => {
     RPGSW.setTempNode(id);
-    actions.setModal(removeTalk);
+    actions.setModal('removeTalk');
     actions.showModal();
   },
 
@@ -82,7 +77,7 @@ const actions = {
 
   showDialogTesterModal: (model, data, actions) => {
     RPGSW.walker.setDialog(model.currDialogNode.getId());
-    actions.setModal(dialogTester);
+    actions.setModal('dialogTester');
     actions.showModal();
   },
 

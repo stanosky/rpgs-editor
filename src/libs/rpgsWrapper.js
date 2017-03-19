@@ -16,7 +16,7 @@ const RPGSW = {
       let children = currVal.getChildren();
 
       if(children.length > 0) {
-        return prevVal.concat(getNodeDataList(currVal));
+        return prevVal.concat(this.getNodeDataList(currVal));
       } else {
         return prevVal.concat(currVal.getData());
       }
@@ -28,8 +28,8 @@ const RPGSW = {
       this.temp.addNode(type, {});
     } else {
       let nodeToEdit = this.main.findNode(id);
-      //console.log('getNodeDataList:',getNodeDataList(nodeToEdit));
-      let data = getNodeDataList(nodeToEdit);
+      //console.log('getNodeDataList:',this.getNodeDataList(nodeToEdit));
+      let data = this.getNodeDataList(nodeToEdit);
       this.tempNodeData = data;
       this.temp.mergeNodes(JSON.stringify(data));
     }

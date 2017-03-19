@@ -1,7 +1,6 @@
 'use strict';
 
 import FileSaver from 'file-saver';
-import loadFile from '../views/modals/loadFile';
 import RPGSW from '../libs/rpgsWrapper';
 
 const actions = {
@@ -31,7 +30,7 @@ const actions = {
   },
 
   showLoadFileModal: (model, data, actions) => {
-    actions.setModal(loadFile);
+    actions.setModal('loadFile');
     actions.showModal();
   },
 

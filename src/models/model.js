@@ -6,7 +6,7 @@ const model = Object.assign({
   selectedTab: 'Dialogs',
   labelAlreadyExist: false,
   modalVisible: false,
-  modalView: null,
+  modalView: '',
   tempWire: null,
   tempDrawArea: null,
   wiresDrawArea: null,
